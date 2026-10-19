@@ -3,332 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ===== SEO ===== -->
-<title>YURT Design Studio — дизайн интерьера в Астане | Дизайн-проект, чертежи, 3D, авторский надзор</title>
-<meta name="description" content="Студия дизайна интерьера YURT в Астане. Полный дизайн-проект от 11 000 ₸/м², рабочие чертежи, 3D-визуализация, авторский надзор. Инженерный подход к каждому проекту.">
-<meta name="keywords" content="дизайн интерьера Астана, дизайн проект квартиры Астана, авторский надзор Астана, 3D визуализация интерьера">
+<title>Дизайн интерьера и технический проект в Астане — YURT Design Studio | от 3 000 ₸/м²</title>
+<meta name="description" content="Студия дизайна интерьера YURT в Астане. Технический проект (рабочие чертежи без 3D) от 3 000 ₸/м², полный дизайн-проект 11 000 ₸/м², 3D-визуализация, авторский надзор. Расчёт в тот же день.">
 <link rel="canonical" href="https://yurtdesign.art/">
-
-<!-- ===== Open Graph (превью в WhatsApp/Telegram) ===== -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="YURT Design Studio — дизайн интерьера в Астане">
-<meta property="og:description" content="Дизайн-проект, рабочие чертежи, 3D-визуализация, авторский надзор. От чертежа до реализации.">
+<meta property="og:title" content="Дизайн интерьера и технический проект в Астане — YURT Design Studio | от 3 000 ₸/м²">
+<meta property="og:description" content="Студия дизайна интерьера YURT в Астане. Технический проект (рабочие чертежи без 3D) от 3 000 ₸/м², полный дизайн-проект 11 000 ₸/м², 3D-визуализация, авторский надзор. Расчёт в тот же день.">
 <meta property="og:url" content="https://yurtdesign.art/">
-<!-- ЗАМЕНИТЬ: превью-картинка 1200x630 -->
 <meta property="og:image" content="https://yurtdesign.art/img/og-cover.jpg">
 <meta property="og:locale" content="ru_RU">
-
-<!-- ===== Schema.org LocalBusiness ===== -->
+<meta property="og:site_name" content="YURT Design Studio">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "InteriorDesigner",
-  "name": "YURT Design Studio",
-  "description": "Студия дизайна интерьера в Астане: дизайн-проекты, рабочие чертежи, 3D-визуализация, авторский надзор.",
-  "url": "https://yurtdesign.art/",
-  "telephone": "+7 700 063 24 24",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Астана",
-    "addressCountry": "KZ"
-  },
-  "priceRange": "₸₸",
-  "areaServed": "Астана"
+  "@graph": [
+    {
+      "@type": "InteriorDesigner",
+      "@id": "https://yurtdesign.art/#studio",
+      "name": "YURT Design Studio",
+      "alternateName": [
+        "YURT Design",
+        "Юрт Дизайн"
+      ],
+      "description": "Студия дизайна интерьера в Астане: технический проект (рабочие чертежи) от 3 000 ₸/м², полный дизайн-проект, 3D-визуализация, авторский надзор.",
+      "url": "https://yurtdesign.art/",
+      "image": "https://yurtdesign.art/img/og-cover.jpg",
+      "telephone": "+7 700 063 24 24",
+      "email": "hello@yurtdesign.art",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Астана",
+        "addressCountry": "KZ"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Астана"
+        },
+        {
+          "@type": "City",
+          "name": "Алматы"
+        },
+        {
+          "@type": "Country",
+          "name": "Казахстан"
+        }
+      ],
+      "priceRange": "3 000 – 11 000 ₸ за м²",
+      "currenciesAccepted": "KZT",
+      "sameAs": [
+        "https://instagram.com/yurtdesign",
+        "https://t.me/remont_bez_skazok"
+      ],
+      "legalName": "ИП «Абельдинов»",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Услуги YURT Design Studio",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "url": "https://yurtdesign.art/tekhnicheskiy-proekt/",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Технический проект"
+            },
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": 3000,
+              "priceCurrency": "KZT",
+              "unitText": "м²"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://yurtdesign.art/dizain-proekt/",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Полный дизайн-проект"
+            },
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": 11000,
+              "priceCurrency": "KZT",
+              "unitText": "м²"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://yurtdesign.art/3d-vizualizaciya/",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "3D-визуализация"
+            },
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": 7000,
+              "priceCurrency": "KZT",
+              "unitText": "м²"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://yurtdesign.art/avtorskiy-nadzor/",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Авторский надзор"
+            },
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": 250000,
+              "priceCurrency": "KZT",
+              "unitText": "месяц"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://yurtdesign.art/#site",
+      "url": "https://yurtdesign.art/",
+      "name": "YURT Design Studio",
+      "inLanguage": "ru"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько стоит технический проект квартиры в Астане?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Технический проект (рабочие чертежи без 3D) стоит 3 000 ₸ за м² по акции вместо 5 000 ₸. Для квартиры 50 м² это 150 000 ₸, для 60 м² — 180 000 ₸, для 80 м² — 240 000 ₸. Цена фиксируется в договоре."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чем технический проект отличается от дизайн-проекта?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Технический проект — это комплект чертежей, по которым бригада делает ремонт: планировка, электрика, сантехника, потолки, полы, развёртки. Полный дизайн-проект (11 000 ₸/м²) дополнительно включает стилевую концепцию, подбор материалов и фотореалистичную 3D-визуализацию каждой комнаты."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно заказать проект без 3D-визуализации?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Технический проект — это и есть проект без 3D. Он подходит, если вы уже представляете стиль или работаете по референсам, а строителям нужны точные чертежи."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько стоит полный дизайн-проект квартиры?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "11 000 ₸ за м². Для квартиры 60 м² — 660 000 ₸. Входят планировка, концепция, 3D-визуализация и полный комплект рабочих чертежей."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько стоит авторский надзор?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "250 000 ₸ в месяц: выезды на объект, контроль соответствия работ проекту, ответы бригаде и решение вопросов по ходу ремонта."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете ли вы в Алматы и других городах?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Основная работа — Астана, есть реализованные проекты в Алматы. Технический проект можно сделать удалённо по вашим обмерам или по плану от застройщика."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужно ли приезжать в офис?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. Всё обсуждаем в WhatsApp и на встрече на объекте: замер, согласование планировки и передача чертежей проходят без визита в офис."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что нужно, чтобы рассчитать стоимость?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Напишите город, название ЖК и площадь квартиры. Этого достаточно для точного расчёта — ответим в тот же день."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
-
-<!--
-=====================================================
-  META PIXEL — вставить сюда код пикселя из Events Manager
-  (Meta Business Suite → Events Manager → ваш пиксель → Установить код)
-=====================================================
--->
-
-<style>
-:root{
-  --navy:#0E1F33;
-  --navy-deep:#091729;
-  --ink:#1B2B3F;
-  --paper:#F2EDE4;
-  --line:rgba(242,237,228,.16);
-  --line-strong:rgba(242,237,228,.34);
-  --terra:#C96F4A;
-  --terra-bright:#E08A63;
-  --muted:rgba(242,237,228,.62);
-  --grid:rgba(242,237,228,.05);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Manrope',sans-serif;
-  background:var(--navy);
-  color:var(--paper);
-  line-height:1.6;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size:56px 56px;
-}
-h1,h2,h3,.display{font-family:'Unbounded',sans-serif;line-height:1.15}
-img{max-width:100%;display:block}
-a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-
-/* ===== эскизная подпись (эйбрау) ===== */
-.eyebrow{
-  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--terra-bright);font-weight:600;
-  display:flex;align-items:center;gap:12px;margin-bottom:18px;
-}
-.eyebrow::before{content:"";width:34px;height:1px;background:var(--terra)}
-
-/* ===== шапка ===== */
-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(9,23,41,.88);backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
-}
-nav{display:flex;align-items:center;justify-content:space-between;height:66px}
-.logo{font-family:'Unbounded';font-weight:800;font-size:17px;letter-spacing:.06em;text-decoration:none}
-.logo span{color:var(--terra-bright)}
-.nav-links{display:flex;gap:28px;list-style:none}
-.nav-links a{text-decoration:none;font-size:14px;color:var(--muted);transition:color .2s}
-.nav-links a:hover,.nav-links a:focus-visible{color:var(--paper)}
-.nav-cta{
-  background:var(--terra);color:var(--navy-deep);text-decoration:none;
-  padding:9px 18px;border-radius:3px;font-weight:700;font-size:13px;
-  transition:background .2s;
-}
-.nav-cta:hover{background:var(--terra-bright)}
-.burger{display:none;background:none;border:1px solid var(--line-strong);color:var(--paper);
-  width:40px;height:40px;border-radius:3px;font-size:18px;cursor:pointer}
-
-/* ===== hero: чертёжный лист ===== */
-.hero{padding:96px 0 84px;position:relative;overflow:hidden}
-.hero .frame{
-  border:1px solid var(--line-strong);
-  padding:64px 48px 56px;position:relative;
-}
-/* размерные линии — сигнатурный элемент */
-.dim{position:absolute;font-size:11px;letter-spacing:.14em;color:var(--muted);font-weight:500}
-.dim-top{top:-9px;left:0;right:0;text-align:center;background:var(--navy);width:max-content;margin:0 auto;padding:0 12px}
-.dim-left{left:-9px;top:50%;transform:rotate(-90deg) translateX(50%);transform-origin:left center;background:var(--navy);padding:0 12px}
-.corner{position:absolute;width:14px;height:14px;border:1px solid var(--terra)}
-.corner.tl{top:-7px;left:-7px;border-right:none;border-bottom:none}
-.corner.tr{top:-7px;right:-7px;border-left:none;border-bottom:none}
-.corner.bl{bottom:-7px;left:-7px;border-right:none;border-top:none}
-.corner.br{bottom:-7px;right:-7px;border-left:none;border-top:none}
-
-.hero h1{font-size:clamp(30px,5vw,58px);font-weight:800;max-width:820px}
-.hero h1 em{font-style:normal;color:var(--terra-bright)}
-.hero p.lead{margin-top:22px;max-width:560px;color:var(--muted);font-size:17px}
-.hero-actions{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
-.btn{
-  display:inline-block;text-decoration:none;font-weight:700;font-size:15px;
-  padding:14px 28px;border-radius:3px;transition:.2s;
-}
-.btn-primary{background:var(--terra);color:var(--navy-deep)}
-.btn-primary:hover{background:var(--terra-bright)}
-.btn-ghost{border:1px solid var(--line-strong);color:var(--paper)}
-.btn-ghost:hover{border-color:var(--terra);color:var(--terra-bright)}
-.hero-stamp{
-  position:absolute;right:40px;bottom:32px;
-  font-size:11px;letter-spacing:.2em;color:var(--muted);
-  border:1px solid var(--line-strong);padding:8px 14px;transform:rotate(-3deg);
-}
-
-/* ===== секции ===== */
-section{padding:88px 0}
-.sec-head{margin-bottom:48px}
-.sec-head h2{font-size:clamp(24px,3.4vw,38px);font-weight:600}
-.sec-head p{color:var(--muted);margin-top:12px;max-width:600px}
-
-/* ===== услуги ===== */
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-.service{background:var(--navy);padding:34px 28px;position:relative;transition:background .25s}
-.service:hover{background:var(--ink)}
-.service .code{font-size:11px;letter-spacing:.2em;color:var(--terra-bright);font-weight:600}
-.service h3{font-size:17px;margin:14px 0 10px;font-weight:600}
-.service p{font-size:14px;color:var(--muted);min-height:66px}
-.service .price{margin-top:20px;font-family:'Unbounded';font-size:19px;font-weight:600}
-.service .price small{display:block;font-family:'Manrope';font-size:12px;color:var(--muted);font-weight:500;margin-top:4px}
-
-/* ===== табы визуализации/чертежи ===== */
-.tabs{
-  display:inline-flex;gap:0;
-  border:1px solid var(--line-strong);
-  margin-bottom:36px;border-radius:3px;overflow:hidden;
-}
-.tab{
-  background:none;border:none;color:var(--muted);font-family:'Manrope';font-weight:600;
-  font-size:14px;padding:12px 26px;cursor:pointer;transition:.2s;
-  letter-spacing:.02em;
-}
-.tab[aria-selected="true"]{background:var(--terra);color:var(--navy-deep)}
-.tab:not([aria-selected="true"]):hover{color:var(--paper)}
-
-/* ===== портфолио: карточки проектов ===== */
-.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
-
-/* ===== пустое состояние для чертежей ===== */
-.dwg-empty{
-  border:1px solid var(--line-strong);
-  padding:60px 40px;text-align:center;
-}
-.dwg-empty-inner{max-width:520px;margin:0 auto;color:var(--muted)}
-.dwg-empty svg{color:var(--terra);opacity:.7;margin:0 auto 22px}
-.dwg-empty h3{font-family:'Unbounded';font-size:20px;color:var(--paper);margin-bottom:14px;font-weight:600}
-.dwg-empty p{font-size:14px;line-height:1.65;margin-bottom:26px}
-.project{
-  position:relative;border:1px solid var(--line);background:var(--navy-deep);
-  cursor:pointer;overflow:hidden;transition:border-color .25s;
-  display:block;text-align:left;width:100%;padding:0;
-  font-family:inherit;color:inherit;
-}
-.project:hover,.project:focus-visible{border-color:var(--terra);outline:none}
-.project-media{aspect-ratio:4/3;overflow:hidden;position:relative;background:var(--navy-deep)}
-.project-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.project:hover .project-media img{transform:scale(1.04)}
-.project-media::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(to bottom, transparent 55%, rgba(9,23,41,.75) 100%);
-  pointer-events:none;
-}
-.project-badge{
-  position:absolute;top:14px;right:14px;z-index:2;
-  background:rgba(9,23,41,.72);backdrop-filter:blur(8px);
-  border:1px solid var(--line-strong);padding:6px 12px;border-radius:3px;
-  font-size:11px;letter-spacing:.14em;color:var(--paper);font-weight:600;
-}
-.project-meta{
-  padding:22px 24px;border-top:1px solid var(--line);
-  display:flex;justify-content:space-between;align-items:center;gap:16px;
-}
-.project-meta .code{font-size:11px;letter-spacing:.2em;color:var(--terra-bright);font-weight:600;display:block;margin-bottom:6px}
-.project-meta h3{font-family:'Unbounded';font-size:19px;font-weight:600;line-height:1.2}
-.project-meta .loc{font-size:13px;color:var(--muted);margin-top:6px}
-.project-arrow{
-  width:44px;height:44px;flex-shrink:0;
-  border:1px solid var(--line-strong);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--paper);font-size:18px;transition:.25s;
-}
-.project:hover .project-arrow{background:var(--terra);border-color:var(--terra);color:var(--navy-deep)}
-
-[hidden]{display:none !important}
-
-/* ===== лайтбокс ===== */
-.lb{
-  position:fixed;inset:0;z-index:100;background:rgba(9,23,41,.96);
-  backdrop-filter:blur(12px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;
-}
-.lb-head{
-  position:absolute;top:20px;left:24px;right:80px;
-  display:flex;justify-content:space-between;align-items:center;gap:20px;
-}
-.lb-title{font-family:'Unbounded';font-size:17px;font-weight:600;color:var(--paper)}
-.lb-count{font-size:13px;letter-spacing:.14em;color:var(--muted);font-weight:600}
-.lb-close{
-  position:absolute;top:20px;right:24px;
-  width:44px;height:44px;border:1px solid var(--line-strong);
-  background:transparent;color:var(--paper);border-radius:50%;
-  font-size:16px;cursor:pointer;transition:.2s;
-}
-.lb-close:hover{background:var(--terra);border-color:var(--terra);color:var(--navy-deep)}
-.lb-stage{
-  max-width:1300px;width:100%;height:calc(100vh - 140px);
-  display:flex;align-items:center;justify-content:center;
-}
-.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid var(--line)}
-.lb-nav{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:56px;height:56px;border:1px solid var(--line-strong);
-  background:rgba(9,23,41,.7);color:var(--paper);border-radius:50%;
-  font-size:28px;line-height:1;cursor:pointer;transition:.2s;
-  display:flex;align-items:center;justify-content:center;
-}
-.lb-nav:hover{background:var(--terra);border-color:var(--terra);color:var(--navy-deep)}
-.lb-prev{left:24px}
-.lb-next{right:24px}
-body.lb-open{overflow:hidden}
-
-/* ===== этапы ===== */
-.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:st}
-.stage{border-left:2px solid var(--terra);padding:4px 0 4px 20px}
-.stage h3{font-size:15px;font-weight:600;margin-bottom:8px}
-.stage h3::before{
-  counter-increment:st;content:"0" counter(st);
-  display:block;font-family:'Unbounded';color:var(--terra-bright);
-  font-size:12px;letter-spacing:.2em;margin-bottom:10px;
-}
-.stage p{font-size:14px;color:var(--muted)}
-
-/* ===== контакты ===== */
-.contact{background:var(--navy-deep);border-top:1px solid var(--line)}
-.contact-inner{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:start}
-.contact h2{font-size:clamp(24px,3.4vw,38px)}
-.contact-list{list-style:none;margin-top:28px;display:grid;gap:16px}
-.contact-list a{text-decoration:none;color:var(--paper);font-size:17px;font-weight:600}
-.contact-list a:hover{color:var(--terra-bright)}
-.contact-list li span{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.wa-btn{
-  display:inline-flex;align-items:center;gap:10px;margin-top:34px;
-  background:var(--terra);color:var(--navy-deep);text-decoration:none;
-  padding:16px 30px;border-radius:3px;font-weight:700;font-size:16px;transition:.2s;
-}
-.wa-btn:hover{background:var(--terra-bright)}
-
-footer{border-top:1px solid var(--line);padding:26px 0;font-size:13px;color:var(--muted)}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-
-@media (max-width:820px){
-  .nav-links{display:none;position:absolute;top:66px;left:0;right:0;
-    background:var(--navy-deep);flex-direction:column;padding:20px 24px;gap:18px;
-    border-bottom:1px solid var(--line)}
-  .nav-links.open{display:flex}
-  .burger{display:block}
-  .hero .frame{padding:44px 24px}
-  .hero-stamp{display:none}
-  .contact-inner{grid-template-columns:1fr}
-  section{padding:64px 0}
-  .tabs{display:flex;width:100%}
-  .tab{flex:1;padding:12px 10px;text-align:center}
-  .dwg-empty{padding:44px 22px}
-  .projects{grid-template-columns:1fr;gap:18px}
-  .project-meta{padding:18px 20px}
-  .project-meta h3{font-size:16px}
-  .project-arrow{width:38px;height:38px}
-  .lb-head{left:16px;right:70px}
-  .lb-title{font-size:14px}
-  .lb-nav{width:44px;height:44px;font-size:22px}
-  .lb-prev{left:8px}.lb-next{right:8px}
-  .lb-stage{height:calc(100vh - 120px)}
-}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+<link rel="stylesheet" href="/css/site.css">
+<!-- META PIXEL — вставить сюда код пикселя из Events Manager -->
 </head>
 <body>
-
 <header>
   <div class="wrap">
     <nav aria-label="Основная навигация">
-      <a class="logo" href="#top">YURT<span>.</span>DESIGN</a>
+      <a class="logo" href="/">YURT<span>.</span>DESIGN</a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#services">Услуги</a></li>
+        <li><a href="/tekhnicheskiy-proekt/">Техпроект</a></li>
+        <li><a href="#services">Услуги и цены</a></li>
         <li><a href="#portfolio">Портфолио</a></li>
-        <li><a href="#stages">Этапы</a></li>
+        <li><a href="#faq">Вопросы</a></li>
         <li><a href="#contact">Контакты</a></li>
       </ul>
       <div style="display:flex;gap:12px;align-items:center">
-        <!-- ЗАМЕНИТЬ: номер WhatsApp в формате 7700XXXXXXX -->
-        <a class="nav-cta" href="https://wa.me/77000632424?text=Здравствуйте!%20Хочу%20обсудить%20дизайн-проект">Обсудить проект</a>
+        <a class="nav-cta" href="https://wa.me/77000632424?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82">Обсудить проект</a>
         <button class="burger" aria-label="Меню" onclick="document.getElementById('navLinks').classList.toggle('open')">≡</button>
       </div>
     </nav>
@@ -337,7 +226,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
 <main id="top">
 
-<!-- ================= HERO ================= -->
 <section class="hero">
   <div class="wrap">
     <div class="frame">
@@ -348,60 +236,72 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
       <p class="eyebrow">Студия дизайна интерьера — Астана</p>
       <h1>Чертёж, который <em>оживает</em> в вашем интерьере</h1>
-      <p class="lead">Инженерный подход к дизайну: продуманные планировки, рабочая документация без ошибок, 3D-визуализация и контроль реализации до последней розетки.</p>
+      <p class="lead">Дизайн интерьера и технические проекты квартир в Астане. Продуманные планировки, рабочие чертежи без ошибок, 3D-визуализация и контроль ремонта до последней розетки. Технический проект — от 3 000 ₸ за м².</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://wa.me/77000632424?text=Здравствуйте!%20Хочу%20рассчитать%20стоимость%20дизайн-проекта">Рассчитать стоимость</a>
-        <a class="btn btn-ghost" href="#portfolio">Смотреть работы</a>
+        <a class="btn btn-primary" href="https://wa.me/77000632424?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D1%81%D1%81%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0.%20%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%2C%20%D0%96%D0%9A%3A%20%2C%20%D0%BF%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C%3A%20%D0%BC%C2%B2">Рассчитать стоимость</a>
+        <a class="btn btn-ghost" href="/tekhnicheskiy-proekt/">Технический проект</a>
       </div>
       <span class="hero-stamp">ПРОВЕРЕНО · YURT · 2026</span>
     </div>
   </div>
 </section>
 
-<!-- ================= УСЛУГИ ================= -->
 <section id="services">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Пакеты и цены</p>
-      <h2>Услуги</h2>
-      <p>Четыре формата работы — от полного проекта под ключ до контроля стройки. Цены фиксируются в договоре.</p>
+      <h2>Услуги и цены на дизайн интерьера в Астане</h2>
+      <p>Четыре формата работы — от технического проекта для строителей до полного дизайн-проекта и контроля стройки. Цены фиксируются в договоре.</p>
     </div>
     <div class="services">
       <article class="service">
         <span class="code">YRT—01</span>
-        <h3>Полный дизайн-проект</h3>
+        <h3><a href="/dizain-proekt/" style="text-decoration:none">Полный дизайн-проект</a></h3>
         <p>Планировка, стилевая концепция, 3D-визуализация, полный комплект рабочих чертежей и ведомости.</p>
+        
         <div class="price">11 000 ₸<small>за м²</small></div>
+        <a class="more" href="/dizain-proekt/">Состав и пример расчёта →</a>
       </article>
-      <article class="service">
+      <article class="service featured">
         <span class="code">YRT—02</span>
-        <h3>Технический дизайн</h3>
-        <p>Рабочая документация для строителей: планы, развёртки, электрика, сантехника, потолки, полы.</p>
-        <div class="price">5 000 ₸<small>за м²</small></div>
+        <h3><a href="/tekhnicheskiy-proekt/" style="text-decoration:none">Технический проект</a></h3>
+        <p>Рабочие чертежи для строителей без 3D: обмеры, планировка, электрика, сантехника, потолки, полы, развёртки.</p>
+        <span class="promo">Акция</span>
+        <div class="price">3 000 ₸<s>5 000 ₸</s><small>за м²</small></div>
+        <a class="more" href="/tekhnicheskiy-proekt/">Состав и пример расчёта →</a>
       </article>
       <article class="service">
         <span class="code">YRT—03</span>
-        <h3>3D-визуализация</h3>
+        <h3><a href="/3d-vizualizaciya/" style="text-decoration:none">3D-визуализация</a></h3>
         <p>Фотореалистичные изображения будущего интерьера. Увидите результат до начала ремонта.</p>
+        
         <div class="price">7 000 ₸<small>за м²</small></div>
+        <a class="more" href="/3d-vizualizaciya/">Состав и пример расчёта →</a>
       </article>
       <article class="service">
         <span class="code">YRT—04</span>
-        <h3>Авторский надзор</h3>
+        <h3><a href="/avtorskiy-nadzor/" style="text-decoration:none">Авторский надзор</a></h3>
         <p>Контроль соответствия стройки проекту: выезды на объект, работа с бригадой, решение вопросов по ходу.</p>
+        
         <div class="price">250 000 ₸<small>в месяц</small></div>
+        <a class="more" href="/avtorskiy-nadzor/">Состав и пример расчёта →</a>
       </article>
     </div>
+    <div class="calc"><table><caption>Пример расчёта · квартира 60 м²</caption><tbody>
+<tr><td>Технический проект · 3 000 ₸ × 60 м²</td><td>180 000 ₸</td></tr>
+<tr><td>3D-визуализация · 7 000 ₸ × 60 м²</td><td>420 000 ₸</td></tr>
+<tr><td>Полный дизайн-проект · 11 000 ₸ × 60 м²</td><td>660 000 ₸</td></tr>
+<tr><td>Авторский надзор</td><td>250 000 ₸ / мес</td></tr>
+</tbody></table><div class="note">Технический проект — по акционной цене 3 000 ₸/м² (обычная цена 5 000 ₸/м²). Точная стоимость — после уточнения площади и задач.</div></div>
   </div>
 </section>
 
-<!-- ================= ПОРТФОЛИО ================= -->
 <section id="portfolio">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Реализованные проекты</p>
       <h2>Портфолио</h2>
-      <p>Визуализации показывают, каким интерьер станет после реализации. Чертежи — по чему его строят.</p>
+      <p>Проекты квартир в ЖК Астаны и Алматы и частного дома. Визуализации показывают, каким интерьер станет после реализации, чертежи — по чему его строят.</p>
     </div>
 
     <div class="tabs" role="tablist" aria-label="Тип работ">
@@ -409,24 +309,120 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
       <button class="tab" role="tab" aria-selected="false" id="tab-dwg" onclick="showTab('dwg')">Рабочие чертежи</button>
     </div>
 
-    <div class="projects" id="projects-viz"></div>
-
-    <div class="projects" id="projects-dwg" hidden></div>
+    <div class="projects" id="projects-viz">
+      <button class="project" onclick="lbOpen(0, 'gallery')" aria-label="Открыть галерею проекта Дом Barnhouse">
+        <div class="project-media">
+          <span class="project-badge">7 фото</span>
+          <img src="/img/covers/barnhouse.jpg" alt="Дом Barnhouse — дизайн интерьера, Частный дом · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—01</span>
+            <h3>Дом Barnhouse</h3>
+            <div class="loc">Частный дом · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(1, 'gallery')" aria-label="Открыть галерею проекта ЖК Turan Palace">
+        <div class="project-media">
+          <span class="project-badge">7 фото</span>
+          <img src="/img/covers/turan.jpg" alt="ЖК Turan Palace — дизайн интерьера, Двухуровневая квартира · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—02</span>
+            <h3>ЖК Turan Palace</h3>
+            <div class="loc">Двухуровневая квартира · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(2, 'gallery')" aria-label="Открыть галерею проекта ЖК Zauzar">
+        <div class="project-media">
+          <span class="project-badge">6 фото</span>
+          <img src="/img/covers/zauzar.jpg" alt="ЖК Zauzar — дизайн интерьера, Квартира · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—03</span>
+            <h3>ЖК Zauzar</h3>
+            <div class="loc">Квартира · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(3, 'gallery')" aria-label="Открыть галерею проекта ЖК 4 YOU">
+        <div class="project-media">
+          <span class="project-badge">6 фото</span>
+          <img src="/img/covers/fouyou.jpg" alt="ЖК 4 YOU — дизайн интерьера, Квартира · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—04</span>
+            <h3>ЖК 4 YOU</h3>
+            <div class="loc">Квартира · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(4, 'gallery')" aria-label="Открыть галерею проекта ЖК Глория">
+        <div class="project-media">
+          <span class="project-badge">8 фото</span>
+          <img src="/img/covers/gloria.jpg" alt="ЖК Глория — дизайн интерьера, Квартира · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—05</span>
+            <h3>ЖК Глория</h3>
+            <div class="loc">Квартира · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(5, 'gallery')" aria-label="Открыть галерею проекта ЖК Капитал">
+        <div class="project-media">
+          <span class="project-badge">9 фото</span>
+          <img src="/img/covers/kapital.jpg" alt="ЖК Капитал — дизайн интерьера, Квартира · Астана · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—06</span>
+            <h3>ЖК Капитал</h3>
+            <div class="loc">Квартира · Астана · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+      <button class="project" onclick="lbOpen(6, 'gallery')" aria-label="Открыть галерею проекта ЖК Мирас">
+        <div class="project-media">
+          <span class="project-badge">6 фото</span>
+          <img src="/img/covers/miras.jpg" alt="ЖК Мирас — дизайн интерьера, Квартира · Алматы · 2026, YURT Design Studio" loading="lazy" width="800" height="600">
+        </div>
+        <div class="project-meta">
+          <div>
+            <span class="code">YRT—07</span>
+            <h3>ЖК Мирас</h3>
+            <div class="loc">Квартира · Алматы · 2026</div>
+          </div>
+          <div class="project-arrow" aria-hidden="true">→</div>
+        </div>
+      </button>
+    </div>
 
     <div class="dwg-empty" id="dwg-empty" hidden>
       <div class="dwg-empty-inner">
         <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
           <path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16M14 9v11M4 14h5"/>
         </svg>
-        <h3>Чертежи готовятся к публикации</h3>
-        <p>Для каждого проекта мы разрабатываем полный комплект рабочей документации — планировки, развёртки стен, планы электрики, потолков и полов. Отправим примеры листов по запросу.</p>
-        <a class="btn btn-primary" href="https://wa.me/77000632424?text=Здравствуйте!%20Хочу%20посмотреть%20примеры%20рабочих%20чертежей">Запросить примеры</a>
+        <h3>Примеры рабочих чертежей</h3>
+        <p>Для каждого проекта мы разрабатываем полный комплект рабочей документации — планировки, развёртки стен, планы электрики, сантехники, потолков и полов. Состав листов — на странице технического проекта, примеры отправим в WhatsApp.</p>
+        <a class="btn btn-primary" href="https://wa.me/77000632424?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D1%85%20%D1%87%D0%B5%D1%80%D1%82%D0%B5%D0%B6%D0%B5%D0%B9">Запросить примеры</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= ЛАЙТБОКС ================= -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Галерея проекта" hidden>
   <button class="lb-close" onclick="lbClose()" aria-label="Закрыть">✕</button>
   <div class="lb-head">
@@ -438,7 +434,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   <button class="lb-nav lb-next" onclick="lbNext()" aria-label="Следующее фото">›</button>
 </div>
 
-<!-- ================= ЭТАПЫ ================= -->
 <section id="stages">
   <div class="wrap">
     <div class="sec-head">
@@ -455,237 +450,90 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   </div>
 </section>
 
-<!-- ================= КОНТАКТЫ ================= -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Частые вопросы</p>
+      <h2>Вопросы о цене и составе проекта</h2>
+    </div>
+<div class="faq">
+<details><summary>Сколько стоит технический проект квартиры в Астане?</summary><p>Технический проект (рабочие чертежи без 3D) стоит 3 000 ₸ за м² по акции вместо 5 000 ₸. Для квартиры 50 м² это 150 000 ₸, для 60 м² — 180 000 ₸, для 80 м² — 240 000 ₸. Цена фиксируется в договоре.</p></details>
+<details><summary>Чем технический проект отличается от дизайн-проекта?</summary><p>Технический проект — это комплект чертежей, по которым бригада делает ремонт: планировка, электрика, сантехника, потолки, полы, развёртки. Полный дизайн-проект (11 000 ₸/м²) дополнительно включает стилевую концепцию, подбор материалов и фотореалистичную 3D-визуализацию каждой комнаты.</p></details>
+<details><summary>Можно заказать проект без 3D-визуализации?</summary><p>Да. Технический проект — это и есть проект без 3D. Он подходит, если вы уже представляете стиль или работаете по референсам, а строителям нужны точные чертежи.</p></details>
+<details><summary>Сколько стоит полный дизайн-проект квартиры?</summary><p>11 000 ₸ за м². Для квартиры 60 м² — 660 000 ₸. Входят планировка, концепция, 3D-визуализация и полный комплект рабочих чертежей.</p></details>
+<details><summary>Сколько стоит авторский надзор?</summary><p>250 000 ₸ в месяц: выезды на объект, контроль соответствия работ проекту, ответы бригаде и решение вопросов по ходу ремонта.</p></details>
+<details><summary>Работаете ли вы в Алматы и других городах?</summary><p>Да. Основная работа — Астана, есть реализованные проекты в Алматы. Технический проект можно сделать удалённо по вашим обмерам или по плану от застройщика.</p></details>
+<details><summary>Нужно ли приезжать в офис?</summary><p>Нет. Всё обсуждаем в WhatsApp и на встрече на объекте: замер, согласование планировки и передача чертежей проходят без визита в офис.</p></details>
+<details><summary>Что нужно, чтобы рассчитать стоимость?</summary><p>Напишите город, название ЖК и площадь квартиры. Этого достаточно для точного расчёта — ответим в тот же день.</p></details>
+</div>
+  </div>
+</section>
+
 <section id="contact" class="contact">
   <div class="wrap contact-inner">
     <div>
       <p class="eyebrow">Свяжитесь с нами</p>
       <h2>Обсудим ваш проект</h2>
-      <p style="color:var(--muted);margin-top:14px;max-width:460px">Расскажите про объект — площадь, состояние, задачи. Посчитаем стоимость и сроки в тот же день.</p>
-      <!-- ЗАМЕНИТЬ номер -->
-      <a class="wa-btn" href="https://wa.me/77000632424?text=Здравствуйте!%20Хочу%20обсудить%20проект">
+      <p style="color:var(--muted);margin-top:14px;max-width:460px">Напишите город, название ЖК и площадь квартиры. Посчитаем стоимость и сроки в тот же день.</p>
+      <a class="wa-btn" href="https://wa.me/77000632424?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.1.1.6-.2 1.2z"/></svg>
         Написать в WhatsApp
       </a>
     </div>
     <ul class="contact-list">
-      <!-- ЗАМЕНИТЬ реальные контакты -->
-      <li><span>Телефон</span><a href="tel:+77000632424">+7 700 063 24 24</a></li>
+      <li><span>Телефон / WhatsApp</span><a href="tel:+77000632424">+7 700 063 24 24</a></li>
       <li><span>Instagram</span><a href="https://instagram.com/yurtdesign" target="_blank" rel="noopener">@yurtdesign</a></li>
+      <li><span>Telegram-канал</span><a href="https://t.me/remont_bez_skazok" target="_blank" rel="noopener">«Ремонт без сказок»</a></li>
       <li><span>Почта</span><a href="mailto:hello@yurtdesign.art">hello@yurtdesign.art</a></li>
-      <li><span>Город</span><a href="#" style="pointer-events:none">Астана, Казахстан</a></li>
+      <li><span>География</span><a href="#" style="pointer-events:none">Астана · Алматы · удалённо по Казахстану</a></li>
     </ul>
   </div>
 </section>
 
 </main>
-
 <footer>
   <div class="wrap">
-    <span>© 2026 YURT Design Studio · ИП «Абельдинов»</span>
-    <span>Дизайн интерьера — Астана</span>
+    <span>© 2026 YURT Design Studio · ИП «Абельдинов» · <a href="tel:+77000632424" style="text-decoration:none">+7 700 063 24 24</a></span>
+    <span><a href="/tekhnicheskiy-proekt/" style="text-decoration:none">Технический проект</a> · <a href="/dizain-proekt/" style="text-decoration:none">Дизайн-проект</a> · <a href="/3d-vizualizaciya/" style="text-decoration:none">3D</a> · <a href="/avtorskiy-nadzor/" style="text-decoration:none">Надзор</a> — Астана</span>
   </div>
 </footer>
-
+<script>document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));</script>
 <script>
-/* ===== проекты портфолио =====
-   Чтобы добавить/убрать фото в проекте — правьте массив gallery.
-   Первое фото массива gallery = обложка на главной. */
 const PROJECTS = [
-  {
-    slug: "barnhouse",
-    code: "YRT—01",
-    title: "Дом Barnhouse",
-    loc:   "Частный дом · Астана · 2026",
-    cover: "img/covers/barnhouse.jpg",
-    gallery: [
-      "img/gallery/barnhouse-01.jpg",
-      "img/gallery/barnhouse-02.jpg",
-      "img/gallery/barnhouse-03.jpg",
-      "img/gallery/barnhouse-04.jpg",
-      "img/gallery/barnhouse-05.jpg",
-      "img/gallery/barnhouse-06.jpg",
-      "img/gallery/barnhouse-07.jpg",
-    ]
-  },
-  {
-    slug: "turan",
-    code: "YRT—02",
-    title: "ЖК Turan Palace",
-    loc:   "Двухуровневая квартира · Астана · 2026",
-    cover: "img/covers/turan.jpg",
-    gallery: [
-      "img/gallery/turan-01.jpg",
-      "img/gallery/turan-02.jpg",
-      "img/gallery/turan-03.jpg",
-      "img/gallery/turan-04.jpg",
-      "img/gallery/turan-05.jpg",
-      "img/gallery/turan-06.jpg",
-      "img/gallery/turan-07.jpg",
-    ]
-  },
-  {
-    slug: "zauzar",
-    code: "YRT—03",
-    title: "ЖК Zauzar",
-    loc:   "Квартира · Астана · 2026",
-    cover: "img/covers/zauzar.jpg",
-    gallery: [
-      "img/gallery/zauzar-01.jpg",
-      "img/gallery/zauzar-02.jpg",
-      "img/gallery/zauzar-03.jpg",
-      "img/gallery/zauzar-04.jpg",
-      "img/gallery/zauzar-05.jpg",
-      "img/gallery/zauzar-06.jpg",
-    ]
-  },
-  {
-    slug: "fouyou",
-    code: "YRT—04",
-    title: "ЖК 4 YOU",
-    loc:   "Квартира · Астана · 2026",
-    cover: "img/covers/fouyou.jpg",
-    gallery: [
-      "img/gallery/fouyou-01.jpg",
-      "img/gallery/fouyou-02.jpg",
-      "img/gallery/fouyou-03.jpg",
-      "img/gallery/fouyou-04.jpg",
-      "img/gallery/fouyou-05.jpg",
-      "img/gallery/fouyou-06.jpg",
-    ]
-  },
-  {
-    slug: "gloria",
-    code: "YRT—05",
-    title: "ЖК Глория",
-    loc:   "Квартира · Астана · 2026",
-    cover: "img/covers/gloria.jpg",
-    gallery: [
-      "img/gallery/gloria-01.jpg",
-      "img/gallery/gloria-02.jpg",
-      "img/gallery/gloria-03.jpg",
-      "img/gallery/gloria-04.jpg",
-      "img/gallery/gloria-05.jpg",
-      "img/gallery/gloria-06.jpg",
-      "img/gallery/gloria-07.jpg",
-      "img/gallery/gloria-08.jpg",
-    ]
-  },
-  {
-    slug: "kapital",
-    code: "YRT—06",
-    title: "ЖК Капитал",
-    loc:   "Квартира · Астана · 2026",
-    cover: "img/covers/kapital.jpg",
-    gallery: [
-      "img/gallery/kapital-01.jpg",
-      "img/gallery/kapital-02.jpg",
-      "img/gallery/kapital-03.jpg",
-      "img/gallery/kapital-04.jpg",
-      "img/gallery/kapital-05.jpg",
-      "img/gallery/kapital-06.jpg",
-      "img/gallery/kapital-07.jpg",
-      "img/gallery/kapital-08.jpg",
-      "img/gallery/kapital-09.jpg",
-    ]
-  },
-  {
-    slug: "miras",
-    code: "YRT—07",
-    title: "ЖК Мирас",
-    loc:   "Квартира · Алматы · 2026",
-    cover: "img/covers/miras.jpg",
-    gallery: [
-      "img/gallery/miras-01.jpg",
-      "img/gallery/miras-02.jpg",
-      "img/gallery/miras-03.jpg",
-      "img/gallery/miras-04.jpg",
-      "img/gallery/miras-05.jpg",
-      "img/gallery/miras-06.jpg",
-    ]
-  },
+  { title: "Дом Barnhouse", gallery: ["/img/gallery/barnhouse-01.jpg", "/img/gallery/barnhouse-02.jpg", "/img/gallery/barnhouse-03.jpg", "/img/gallery/barnhouse-04.jpg", "/img/gallery/barnhouse-05.jpg", "/img/gallery/barnhouse-06.jpg", "/img/gallery/barnhouse-07.jpg"] },
+  { title: "ЖК Turan Palace", gallery: ["/img/gallery/turan-01.jpg", "/img/gallery/turan-02.jpg", "/img/gallery/turan-03.jpg", "/img/gallery/turan-04.jpg", "/img/gallery/turan-05.jpg", "/img/gallery/turan-06.jpg", "/img/gallery/turan-07.jpg"] },
+  { title: "ЖК Zauzar", gallery: ["/img/gallery/zauzar-01.jpg", "/img/gallery/zauzar-02.jpg", "/img/gallery/zauzar-03.jpg", "/img/gallery/zauzar-04.jpg", "/img/gallery/zauzar-05.jpg", "/img/gallery/zauzar-06.jpg"] },
+  { title: "ЖК 4 YOU", gallery: ["/img/gallery/fouyou-01.jpg", "/img/gallery/fouyou-02.jpg", "/img/gallery/fouyou-03.jpg", "/img/gallery/fouyou-04.jpg", "/img/gallery/fouyou-05.jpg", "/img/gallery/fouyou-06.jpg"] },
+  { title: "ЖК Глория", gallery: ["/img/gallery/gloria-01.jpg", "/img/gallery/gloria-02.jpg", "/img/gallery/gloria-03.jpg", "/img/gallery/gloria-04.jpg", "/img/gallery/gloria-05.jpg", "/img/gallery/gloria-06.jpg", "/img/gallery/gloria-07.jpg", "/img/gallery/gloria-08.jpg"] },
+  { title: "ЖК Капитал", gallery: ["/img/gallery/kapital-01.jpg", "/img/gallery/kapital-02.jpg", "/img/gallery/kapital-03.jpg", "/img/gallery/kapital-04.jpg", "/img/gallery/kapital-05.jpg", "/img/gallery/kapital-06.jpg", "/img/gallery/kapital-07.jpg", "/img/gallery/kapital-08.jpg", "/img/gallery/kapital-09.jpg"] },
+  { title: "ЖК Мирас", gallery: ["/img/gallery/miras-01.jpg", "/img/gallery/miras-02.jpg", "/img/gallery/miras-03.jpg", "/img/gallery/miras-04.jpg", "/img/gallery/miras-05.jpg", "/img/gallery/miras-06.jpg"] }
 ];
-
-/* рендерим карточки визуализаций */
-function renderProjects(containerId, keyName){
-  const items = PROJECTS.filter(p => p[keyName] && p[keyName].length > 0);
-  document.getElementById(containerId).innerHTML = items.map((p) => {
-    const gallery = p[keyName];
-    const globalIdx = PROJECTS.indexOf(p);
-    return `
-      <button class="project" onclick="lbOpen(${globalIdx}, '${keyName}')" aria-label="Открыть галерею проекта ${p.title}">
-        <div class="project-media">
-          <span class="project-badge">${gallery.length} ${keyName === 'gallery' ? 'фото' : 'листов'}</span>
-          <img src="${p.cover}" alt="${p.title} — дизайн интерьера, ${p.loc}, YURT Design Studio" loading="lazy">
-        </div>
-        <div class="project-meta">
-          <div>
-            <span class="code">${p.code}</span>
-            <h3>${p.title}</h3>
-            <div class="loc">${p.loc}</div>
-          </div>
-          <div class="project-arrow" aria-hidden="true">→</div>
-        </div>
-      </button>
-    `;
-  }).join("");
-  return items.length;
-}
-
-renderProjects("projects-viz", "gallery");
-const dwgCount = renderProjects("projects-dwg", "drawings");
-
-/* ===== переключение табов ===== */
 function showTab(name){
   const viz = name === "viz";
   document.getElementById("projects-viz").hidden = !viz;
-  document.getElementById("projects-dwg").hidden = viz || dwgCount === 0;
-  document.getElementById("dwg-empty").hidden = viz || dwgCount > 0;
+  document.getElementById("dwg-empty").hidden = viz;
   document.getElementById("tab-viz").setAttribute("aria-selected", viz);
   document.getElementById("tab-dwg").setAttribute("aria-selected", !viz);
 }
-
-/* ===== лайтбокс ===== */
-let lbProject = null, lbIndex = 0, lbKey = 'gallery';
-const lb = document.getElementById("lb");
-const lbImg = document.getElementById("lbImg");
-const lbTitle = document.getElementById("lbTitle");
-const lbCount = document.getElementById("lbCount");
-
-function lbOpen(projectIdx, key){
-  lbProject = PROJECTS[projectIdx];
-  lbKey = key || 'gallery';
-  lbIndex = 0;
-  lbUpdate();
-  lb.hidden = false;
-  document.body.classList.add("lb-open");
-}
-function lbClose(){
-  lb.hidden = true;
-  document.body.classList.remove("lb-open");
-  lbProject = null;
-}
-function lbNext(){ if(!lbProject) return; const arr = lbProject[lbKey]; lbIndex = (lbIndex + 1) % arr.length; lbUpdate(); }
-function lbPrev(){ if(!lbProject) return; const arr = lbProject[lbKey]; lbIndex = (lbIndex - 1 + arr.length) % arr.length; lbUpdate(); }
+let lbProject = null, lbIndex = 0;
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"),
+      lbTitle = document.getElementById("lbTitle"), lbCount = document.getElementById("lbCount");
+function lbOpen(i){ lbProject = PROJECTS[i]; lbIndex = 0; lbUpdate(); lb.hidden = false; document.body.classList.add("lb-open"); }
+function lbClose(){ lb.hidden = true; document.body.classList.remove("lb-open"); lbProject = null; }
+function lbNext(){ if(!lbProject) return; lbIndex = (lbIndex + 1) % lbProject.gallery.length; lbUpdate(); }
+function lbPrev(){ if(!lbProject) return; const n = lbProject.gallery.length; lbIndex = (lbIndex - 1 + n) % n; lbUpdate(); }
 function lbUpdate(){
-  const arr = lbProject[lbKey];
+  const arr = lbProject.gallery;
   lbImg.src = arr[lbIndex];
-  lbImg.alt = `${lbProject.title} — ${lbKey === 'gallery' ? 'фото' : 'чертёж'} ${lbIndex+1} из ${arr.length}`;
-  lbTitle.textContent = lbProject.title + (lbKey === 'drawings' ? ' · Рабочие чертежи' : '');
-  lbCount.textContent = `${String(lbIndex+1).padStart(2,'0')} / ${String(arr.length).padStart(2,'0')}`;
+  lbImg.alt = lbProject.title + " — фото " + (lbIndex+1) + " из " + arr.length;
+  lbTitle.textContent = lbProject.title;
+  lbCount.textContent = String(lbIndex+1).padStart(2,"0") + " / " + String(arr.length).padStart(2,"0");
 }
-/* клавиатура и клик по фону */
 document.addEventListener("keydown", e => {
   if(lb.hidden) return;
-  if(e.key === "Escape") lbClose();
-  else if(e.key === "ArrowRight") lbNext();
-  else if(e.key === "ArrowLeft") lbPrev();
+  if(e.key === "Escape") lbClose(); else if(e.key === "ArrowRight") lbNext(); else if(e.key === "ArrowLeft") lbPrev();
 });
 lb.addEventListener("click", e => { if(e.target === lb || e.target.classList.contains("lb-stage")) lbClose(); });
-
-/* закрывать мобильное меню после клика */
-document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
 </script>
-
 </body>
 </html>
