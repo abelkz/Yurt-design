@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-434376394"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-434376394');
+  document.addEventListener('click', function(ev){
+    var a = ev.target.closest && ev.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (/^tel:/.test(h)) gtag('event', 'click_phone', {link_url: h});
+    else if (/wa\.me|whatsapp/.test(h)) gtag('event', 'click_whatsapp', {link_url: h});
+    else if (/t\.me\//.test(h)) gtag('event', 'click_telegram', {link_url: h});
+  });
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Дизайн квартиры в ЖК Tumar Residents — рабочий проект | YURT</title>
