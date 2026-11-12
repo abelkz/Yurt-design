@@ -93,16 +93,53 @@ function photoTags(post, from = 0, to) {
   ).join("\n");
 }
 
+// Photos and videos in the order they were posted.
+function mediaList(post) {
+  const ph = (post.photos || []).map(p => ({ ...p, kind: "photo" }));
+  const vd = (post.videos || []).map(v => ({ ...v, kind: "video" }));
+  return ph.concat(vd).sort((a, b) => a.mid - b.mid);
+}
+
+// Cover image for cards / OG: first photo, else poster of the first saved video.
+function coverOf(post) {
+  const m = mediaList(post).find(x => x.kind === "photo" || x.poster);
+  if (!m) return null;
+  return m.kind === "photo" ? { path: m.path, w: m.w, h: m.h } : { path: m.poster, w: m.w, h: m.h };
+}
+
+function mediaTags(post, from = 0, to) {
+  return mediaList(post).slice(from, to).map((m, i) => {
+    const n = i + from;
+    if (m.kind === "photo") {
+      return `<figure class="post-fig"><img src="/${m.path}" width="${m.w || 1280}" height="${m.h || 960}" alt="${esc(post.title)}${n ? " — фото " + (n + 1) : ""}" loading="${n ? "lazy" : "eager"}"></figure>`;
+    }
+    if (m.path) {
+      return `<figure class="post-fig post-video${m.round ? " round" : ""}"><video src="/${m.path}"${m.poster ? ` poster="/${m.poster}"` : ""} controls playsinline preload="metadata" width="${m.w || 720}" height="${m.h || 1280}"></video></figure>`;
+    }
+    // Too big for the bot to download (>20 MB): show the channel post with Telegram's own player.
+    return `<div class="post-tg"><script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="${esc(m.tg)}" data-width="100%" data-dark="1" data-userpic="false"></script></div>`;
+  }).join("\n");
+}
+
 function renderPost(layout, post, posts) {
   const path = `/blog/${post.slug}/`;
   const desc = (post.plain || post.title).slice(0, 155);
-  const cover = post.photos && post.photos[0] ? `${SITE}/${post.photos[0].path}` : `${SITE}/img/og-cover.jpg`;
+  const c = coverOf(post);
+  const cover = c ? `${SITE}/${c.path}` : `${SITE}/img/og-cover.jpg`;
   const ld = {
     "@context": "https://schema.org", "@type": "BlogPosting", headline: post.title.slice(0, 110), description: desc,
     datePublished: isoDate(post.date), dateModified: isoDate(post.edited || post.date), inLanguage: "ru",
     url: SITE + path, mainEntityOfPage: SITE + path, image: cover,
     author: { "@id": SITE + "/#renat" }, publisher: { "@id": SITE + "/#studio" }
   };
+  const vids = (post.videos || []).filter(v => v.path);
+  if (vids.length) {
+    ld.video = vids.map(v => ({
+      "@type": "VideoObject", name: post.title.slice(0, 100), description: desc, uploadDate: isoDate(post.date),
+      contentUrl: `${SITE}/${v.path}`, thumbnailUrl: v.poster ? `${SITE}/${v.poster}` : cover,
+      ...(v.duration ? { duration: `PT${v.duration}S` } : {})
+    }));
+  }
   const others = posts.filter(p => p.slug !== post.slug && !p.hidden).slice(0, 4)
     .map(p => `<a href="/blog/${p.slug}/"><b>${esc(p.title)}</b><span>${dateRu(p.date)}</span></a>`).join("");
   const content = `<article>
@@ -116,9 +153,9 @@ function renderPost(layout, post, posts) {
 </section>
 <section style="padding-top:0">
   <div class="wrap"><div class="art post">
-${photoTags(post, 0, 1)}
+${mediaTags(post, 0, 1)}
 ${post.bodyHtml}
-${photoTags(post, 1)}
+${mediaTags(post, 1)}
   </div></div>
 </section>
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
@@ -131,7 +168,9 @@ ${others ? `<section style="padding-top:0"><div class="wrap"><div class="sec-hea
 function renderIndex(layout, posts) {
   const vis = posts.filter(p => !p.hidden);
   const cards = vis.map(p => {
-    const img = p.photos && p.photos[0] ? `<img src="/${p.photos[0].path}" alt="${esc(p.title)}" loading="lazy" width="${p.photos[0].w || 1280}" height="${p.photos[0].h || 960}">` : `<div class="blog-noimg">YURT</div>`;
+    const c = coverOf(p);
+    const play = (p.videos || []).length && !(p.photos || []).length ? `<span class="blog-play" aria-hidden="true">▶</span>` : "";
+    const img = c ? `<span class="blog-cover"><img src="/${c.path}" alt="${esc(p.title)}" loading="lazy" width="${c.w || 1280}" height="${c.h || 960}">${play}</span>` : `<div class="blog-noimg">YURT</div>`;
     return `<a class="blog-card" href="/blog/${p.slug}/">${img}<span class="blog-date">${dateRu(p.date)}</span><b>${esc(p.title)}</b><span class="blog-ex">${esc((p.plain || "").slice(0, 140))}${(p.plain || "").length > 140 ? "…" : ""}</span></a>`;
   }).join("\n");
   const content = `<section class="page-hero">

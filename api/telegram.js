@@ -100,6 +100,32 @@ async function processMessage(msg, isEdit) {
     post.photos.push({ path, w: ph.w, h: ph.h, mid: msg.message_id });
     post.photos.sort((a, b) => a.mid - b.mid);
   }
+  const vid = msg.video || msg.video_note || msg.animation;
+  post.videos = post.videos || [];
+  if (vid && !post.videos.some(v => v.mid === msg.message_id)) {
+    const entry = { mid: msg.message_id, w: vid.width || vid.length || 720, h: vid.height || vid.length || 1280, duration: vid.duration || 0, round: !!msg.video_note };
+    const thumb = vid.thumbnail || vid.thumb;
+    if ((vid.file_size || 0) <= 20 * 1024 * 1024) {
+      const f = await tg("getFile", { file_id: vid.file_id });
+      const r = await fetch(`https://api.telegram.org/file/bot${process.env.TG_BOT_TOKEN}/${f.file_path}`);
+      if (!r.ok) throw new Error("video download " + r.status);
+      entry.path = `blog/video/${post.id}-${msg.message_id}.mp4`;
+      files.push({ path: entry.path, content: Buffer.from(await r.arrayBuffer()), binary: true });
+      if (thumb) {
+        try {
+          const tf = await tg("getFile", { file_id: thumb.file_id });
+          const tr = await fetch(`https://api.telegram.org/file/bot${process.env.TG_BOT_TOKEN}/${tf.file_path}`);
+          if (tr.ok) {
+            entry.poster = `blog/img/${post.id}-${msg.message_id}-poster.jpg`;
+            files.push({ path: entry.poster, content: Buffer.from(await tr.arrayBuffer()), binary: true });
+          }
+        } catch (e) { console.error("poster:", e.message); }
+      }
+    } else {
+      entry.tg = `${msg.chat.username || ""}/${msg.message_id}`; // shown via Telegram's embedded player
+    }
+    post.videos.push(entry);
+  }
   if (text.trim()) {
     const parsed = B.parsePost(text, entities);
     post.title = parsed.title; post.bodyHtml = parsed.bodyHtml; post.plain = parsed.plain;
