@@ -76,8 +76,9 @@ function parsePost(text, entities) {
     title = m ? m[1] : title.slice(0, 90).replace(/\s+\S*$/, "") + "…";
     rest = first + "\n" + rest; // keep the full first paragraph in the body
   }
-  const paragraphs = rest.replace(/(^|\s)#[\p{L}\p{N}_]+/gu, "$1").split(/\n\s*\n/).map(p => p.trim()).filter(p => stripTags(p).trim());
-  const bodyHtml = paragraphs.map(p => "<p>" + p.replace(/\n/g, "<br>") + "</p>").join("\n");
+  // Every line break in Telegram is treated as a new paragraph (people rarely leave blank lines in posts).
+  const paragraphs = rest.replace(/(^|\s)#[\p{L}\p{N}_]+/gu, "$1").split(/\n+/).map(p => p.trim()).filter(p => stripTags(p).trim());
+  const bodyHtml = paragraphs.map(p => "<p>" + p + "</p>").join("\n");
   const plain = stripTags(paragraphs.join(" ")).replace(/\s+/g, " ").trim();
   return { title: title || "Заметка дизайнера", bodyHtml, plain };
 }

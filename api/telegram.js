@@ -103,6 +103,7 @@ async function processMessage(msg, isEdit) {
   if (text.trim()) {
     const parsed = B.parsePost(text, entities);
     post.title = parsed.title; post.bodyHtml = parsed.bodyHtml; post.plain = parsed.plain;
+    post.text = text; post.entities = entities; // raw copy so pages can be re-rendered later
     if (!post.slug) post.slug = B.slugify(parsed.title, post.id);
     if (isEdit) post.edited = msg.edit_date || Math.floor(Date.now() / 1000);
   }
