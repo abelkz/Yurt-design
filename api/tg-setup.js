@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
     out.webhook = await call("setWebhook", {
       url: "https://yurtdesign.art/api/telegram",
       secret_token: secret,
-      allowed_updates: ["channel_post", "edited_channel_post"],
+      allowed_updates: ["channel_post", "edited_channel_post", "message"],
       max_connections: 1
     });
     if (me.ok) {

@@ -431,3 +431,46 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .blog-card .blog-cover{position:relative;display:block}
 .blog-card .blog-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(9,23,41,.75);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;padding-left:4px}
 @media (max-width:820px){.art.post .post-video:not(.round){margin:0 -24px 14px}.art.post .post-video:not(.round) video{border-left:0;border-right:0}}
+
+/* ===== квиз «Рассчитать стоимость» ===== */
+.qz{position:fixed;inset:0;z-index:200;background:rgba(5,12,22,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px}
+.qz[hidden]{display:none}
+html.qz-lock{overflow:hidden}
+.qz-box{width:100%;max-width:520px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--navy-deep);border:1px solid var(--line-strong);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.qz-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--terra-bright);font-weight:600}
+.qz-x{background:none;border:0;color:var(--paper);font-size:28px;line-height:1;cursor:pointer;padding:0 4px;opacity:.7}
+.qz-x:hover{opacity:1}
+.qz-bar{height:3px;background:var(--line);margin:0 18px}
+.qz-bar i{display:block;height:100%;width:8%;background:var(--terra);transition:width .25s}
+.qz-body{padding:22px 18px 22px}
+.qz-body h3{font-size:22px;margin:4px 0 18px}
+.qz-step{font-size:13px;color:var(--muted)}
+.qz-opts{display:grid;gap:10px}
+.qz-opt{display:block;width:100%;text-align:left;background:rgba(242,237,228,.04);border:1px solid var(--line-strong);border-radius:10px;padding:14px 16px;color:var(--paper);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.qz-opt:hover,.qz-opt:focus-visible,.qz-opt.on{border-color:var(--terra);background:rgba(201,111,74,.1);outline:none}
+.qz-opt b{display:block;font-size:16px;font-weight:600}
+.qz-opt span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.qz-area{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.qz-area input[type=range]{flex:1;accent-color:var(--terra);height:28px}
+.qz-num{display:flex;align-items:center;gap:6px;border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px}
+.qz-num input{width:64px;background:none;border:0;color:var(--paper);font:600 18px 'Manrope',sans-serif;text-align:right;outline:none}
+.qz-num span{color:var(--muted)}
+.qz-next,.qz-form .btn{width:100%;justify-content:center;border:0;cursor:pointer;font:inherit;font-weight:600}
+.qz-back{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;margin-top:16px;cursor:pointer;padding:4px 0}
+.qz-back:hover{color:var(--paper)}
+.qz-sum{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.qz-sum span{color:var(--muted);font-size:14px}
+.qz-sum b{font-family:'Unbounded',sans-serif;font-size:20px;white-space:nowrap;color:var(--terra-bright)}
+.qz-sum s{font-family:'Manrope',sans-serif;font-size:14px;color:var(--muted);font-weight:400;margin-left:6px}
+.qz-note{font-size:14px;color:var(--muted);margin:14px 0 16px;line-height:1.55}
+.qz-form{display:grid;gap:10px}
+.qz-form input{width:100%;background:rgba(242,237,228,.06);border:1px solid var(--line-strong);border-radius:8px;padding:13px 14px;color:var(--paper);font:16px 'Manrope',sans-serif}
+.qz-form input:focus{border-color:var(--terra);outline:none}
+.qz-form .qz-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.qz-err{color:#ff9a8a;font-size:14px}
+.qz-err a{color:var(--paper)}
+.qz-small{font-size:12px;color:var(--muted)}
+.qz-done p{color:var(--muted);margin:0 0 18px}
+.qz-done .btn{display:inline-flex}
+.qz-sum span{min-width:0}
+@media (max-width:520px){.qz-sum{flex-direction:column;gap:4px}.qz{align-items:flex-end;padding:0}.qz-box{border-radius:16px 16px 0 0;max-height:92dvh}.qz-body h3{font-size:20px}}

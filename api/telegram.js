@@ -147,6 +147,23 @@ async function processMessage(msg, isEdit) {
   return post.hidden ? "stored" : "published:" + post.slug;
 }
 
+// Личка бота: владелец (@abelkz) жмёт /start — бот запоминает его chat id, туда идут заявки с квиза.
+async function handlePrivate(m) {
+  const owner = (process.env.TG_OWNER || "abelkz").replace(/^@/, "").toLowerCase();
+  const isOwner = (m.from && (m.from.username || "").toLowerCase()) === owner;
+  if (!isOwner) {
+    return tg("sendMessage", { chat_id: m.chat.id, text: "Это бот сайта yurtdesign.art. Чтобы обсудить проект, напишите Ренату: @abelkz или WhatsApp +7 700 063 24 24" });
+  }
+  if (/^\/start|^\/leads/.test(m.text || "")) {
+    const cur = await readFile("data/owner.json");
+    if (!cur || JSON.parse(cur).chat_id !== m.chat.id) {
+      await commitFiles([{ path: "data/owner.json", content: JSON.stringify({ chat_id: m.chat.id }) + "\n" }], "Leads: owner chat for quiz requests");
+    }
+    return tg("sendMessage", { chat_id: m.chat.id, text: "Готово ✅ Заявки из квиза на yurtdesign.art будут приходить сюда." });
+  }
+  return tg("sendMessage", { chat_id: m.chat.id, text: "Посты для блога публикуй в канале «Ремонт без сказок». Сюда приходят заявки с сайта." });
+}
+
 async function pingIndexNow(url) {
   const q = `?url=${encodeURIComponent(url)}&key=${INDEXNOW_KEY}`;
   await Promise.allSettled([
@@ -161,6 +178,10 @@ module.exports = async (req, res) => {
     return res.status(401).send("unauthorized");
   }
   const update = req.body || {};
+  if (update.message && update.message.chat && update.message.chat.type === "private") {
+    try { await handlePrivate(update.message); } catch (e) { console.error("private:", e.message); }
+    return res.status(200).send("ok");
+  }
   const msg = update.channel_post || update.edited_channel_post;
   const want = (process.env.TG_CHANNEL || "remont_bez_skazok").replace(/^@/, "").toLowerCase();
   if (!msg || !msg.chat || ((msg.chat.username || "").toLowerCase() !== want && String(msg.chat.id) !== want)) {
