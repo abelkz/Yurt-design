@@ -12,14 +12,30 @@
     { key: "area", q: "Какая площадь?", area: true },
     { key: "service", q: "Что нужно?", opts: [
       ["full", "Полный дизайн-проект", "планировка, стиль, 3D, все чертежи · 11 000 ₸/м²"],
-      ["tech", "Технический проект", "чертежи для бригады без 3D · 3 000 ₸/м² вместо 5 000 ₸"],
+      ["tech", "Технический проект", "чертежи для бригады без 3D · 5 000 ₸/м²"],
       ["viz", "3D-визуализация", "как будет выглядеть каждая комната · 7 000 ₸/м²"],
       ["unsure", "Пока не знаю", "подскажу, что подойдёт под ваш ремонт"]
     ] },
     { key: "when", q: "Когда планируете ремонт?", opts: ["Уже идёт", "В течение месяца", "Через 1–3 месяца", "Пока присматриваюсь"] }
   ];
 
-  var root, body, bar, state, step;
+  var root, body, bar, state, step, tick;
+  var HOLD_MS = 10 * 3600 * 1000, KEY = "yurt_price_hold";
+  // Бронь скидки: 10 часов с первого расчёта на этом устройстве. Обновление страницы её не перезапускает.
+  function holdUntil() {
+    var now = Date.now(), t = 0;
+    try { t = +localStorage.getItem(KEY) || 0; } catch (e) {}
+    if (!t || now - t > 7 * 24 * 3600 * 1000) { t = now + HOLD_MS; try { localStorage.setItem(KEY, t); } catch (e) {} }
+    return t;
+  }
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  function left(t) { var d = Math.max(0, t - Date.now()), s = Math.floor(d / 1000); return pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60); }
+  function hasDiscount() { return state.service === "tech" || state.service === "unsure"; }
+  function holdText() {
+    if (!hasDiscount() || !state.hold || state.hold < Date.now()) return "";
+    var d = new Date(state.hold);
+    return "Бронь цены 3 000 ₸/м² до " + pad(d.getDate()) + "." + pad(d.getMonth() + 1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
   var fmt = function (n) { return Math.round(n).toLocaleString("ru-RU").replace(/ /g, " ") + " ₸"; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
 
@@ -39,8 +55,9 @@
       "Площадь: " + state.area + " м²",
       "Услуга: " + SERVICES[state.service].name,
       "Ремонт: " + state.when,
-      "Расчёт: " + est.lines.map(function (l) { return l[0] + " ≈ " + fmt(l[1]); }).join("; ")
-    ];
+      "Расчёт: " + est.lines.map(function (l) { return l[0] + " ≈ " + fmt(l[1]); }).join("; "),
+      holdText()
+    ].filter(Boolean);
   }
 
   function waLink(extra) {
@@ -51,6 +68,7 @@
   function track(name, params) { try { window.gtag && gtag("event", name, params || {}); } catch (e) {} }
 
   function render() {
+    clearInterval(tick);
     bar.style.width = Math.min(100, (step / (STEPS.length + 1)) * 100 + 8) + "%";
     var back = step > 0 && step <= STEPS.length ? '<button type="button" class="qz-back" data-back>← Назад</button>' : "";
     if (step < STEPS.length) {
@@ -75,7 +93,12 @@
       var rows = est.lines.map(function (l) {
         return '<div class="qz-sum"><span>' + esc(l[0]) + " · " + state.area + ' м²</span><b>≈ ' + fmt(l[1]) + (l[2] ? " <s>" + fmt(l[2]) + "</s>" : "") + "</b></div>";
       }).join("");
-      body.innerHTML = '<p class="qz-step">Ваш расчёт</p><h3>Предварительная стоимость</h3>' + rows +
+      var timer = "";
+      if (hasDiscount()) {
+        state.hold = holdUntil();
+        if (state.hold > Date.now()) timer = '<div class="qz-timer"><span>Скидка 40 % на технический проект закреплена за вами ещё</span><b data-left>' + left(state.hold) + "</b></div>";
+      }
+      body.innerHTML = '<p class="qz-step">Ваш расчёт</p><h3>Предварительная стоимость</h3>' + rows + timer +
         '<p class="qz-note">Точную сумму и сроки назову после пары уточнений. Оставьте номер — перезвоню или напишу в WhatsApp в течение 15 минут (с 9:00 до 21:00).</p>' +
         '<form class="qz-form" novalidate>' +
         '<input name="name" autocomplete="name" placeholder="Как к вам обращаться" maxlength="60">' +
@@ -86,6 +109,11 @@
         '<p class="qz-small">Нажимая кнопку, вы соглашаетесь, что я свяжусь с вами по этому номеру. Без рассылок.</p>' +
         "</form>" + back;
       track("quiz_result", { service: state.service, area: state.area });
+      if (timer) tick = setInterval(function () {
+        var el = body.querySelector("[data-left]"); if (!el) return clearInterval(tick);
+        el.textContent = left(state.hold);
+        if (state.hold <= Date.now()) { clearInterval(tick); el.parentNode.remove(); }
+      }, 1000);
       return;
     }
     body.innerHTML = '<div class="qz-done"><p class="qz-step">Заявка отправлена</p><h3>Спасибо' + (state.name ? ", " + esc(state.name) : "") + "!</h3>" +
@@ -103,7 +131,7 @@
     track("quiz_open", { preset: preset || "" });
     setTimeout(function () { var b = root.querySelector(".qz-opt, input"); b && b.focus(); }, 30);
   }
-  function close() { root.hidden = true; document.documentElement.classList.remove("qz-lock"); }
+  function close() { clearInterval(tick); root.hidden = true; document.documentElement.classList.remove("qz-lock"); }
 
   function next() {
     // если услугу выбрали заранее (с кнопки на странице техпроекта) — шаг «что нужно» пропускаем

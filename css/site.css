@@ -474,3 +474,6 @@ html.qz-lock{overflow:hidden}
 .qz-done .btn{display:inline-flex}
 .qz-sum span{min-width:0}
 @media (max-width:520px){.qz-sum{flex-direction:column;gap:4px}.qz{align-items:flex-end;padding:0}.qz-box{border-radius:16px 16px 0 0;max-height:92dvh}.qz-body h3{font-size:20px}}
+.qz-timer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;padding:12px 14px;border:1px dashed var(--terra);border-radius:10px;background:rgba(201,111,74,.08)}
+.qz-timer span{font-size:13px;line-height:1.4;color:var(--paper)}
+.qz-timer b{font:600 22px 'Unbounded',sans-serif;color:var(--terra-bright);font-variant-numeric:tabular-nums;white-space:nowrap}
