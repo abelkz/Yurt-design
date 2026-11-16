@@ -14,12 +14,33 @@ async function ownerChat() {
   return ownerCache;
 }
 
+// Пока владелец не нажал /start, включаем боту личные сообщения (без ручного захода в tg-setup).
+async function ensurePrivateUpdates() {
+  const api = m => `https://api.telegram.org/bot${process.env.TG_BOT_TOKEN}/${m}`;
+  const info = await (await fetch(api("getWebhookInfo"))).json();
+  const allowed = (info.result && info.result.allowed_updates) || [];
+  if (allowed.includes("message")) return "already";
+  const r = await fetch(api("setWebhook"), {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: "https://yurtdesign.art/api/telegram", secret_token: process.env.TG_WEBHOOK_SECRET,
+      allowed_updates: ["channel_post", "edited_channel_post", "message"], max_connections: 1 })
+  });
+  return (await r.json()).ok ? "enabled" : "failed";
+}
+
 const clean = (s, n) => String(s == null ? "" : s).replace(/[\u0000-\u001f<>]/g, " ").trim().slice(0, n);
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).send("POST only");
   const b = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
   if (b.company) return res.status(200).json({ ok: true }); // скрытое поле: так заполняют только боты
+  if (b.setup === "bot") { // служебная проверка: включить личку бота и сказать, знает ли он владельца
+    let webhook = "error";
+    try { webhook = await ensurePrivateUpdates(); } catch (e) { console.error("setup:", e.message); }
+    let owner = false;
+    try { owner = !!(await ownerChat()); } catch (e) {}
+    return res.status(200).json({ webhook, owner });
+  }
   const phone = clean(b.phone, 20), digits = phone.replace(/\D/g, "");
   if (digits.length < 10 || digits.length > 12) return res.status(400).json({ ok: false, error: "phone" });
   const lines = (Array.isArray(b.lines) ? b.lines : []).slice(0, 8).map(l => clean(l, 200));
@@ -44,7 +65,7 @@ module.exports = async (req, res) => {
 
   try {
     const chat = await ownerChat();
-    if (!chat) throw new Error("owner chat not set — нажмите /start в боте");
+    if (!chat) { await ensurePrivateUpdates().catch(() => {}); throw new Error("owner chat not set — нажмите /start в боте"); }
     const r = await fetch(`https://api.telegram.org/bot${process.env.TG_BOT_TOKEN}/sendMessage`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: chat, text, disable_web_page_preview: true })
