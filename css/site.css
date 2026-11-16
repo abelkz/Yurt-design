@@ -477,3 +477,23 @@ html.qz-lock{overflow:hidden}
 .qz-timer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;padding:12px 14px;border:1px dashed var(--terra);border-radius:10px;background:rgba(201,111,74,.08)}
 .qz-timer span{font-size:13px;line-height:1.4;color:var(--paper)}
 .qz-timer b{font:600 22px 'Unbounded',sans-serif;color:var(--terra-bright);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ===== обратный отсчёт акции ===== */
+.promo-count{display:none;align-items:center;justify-content:space-between;gap:16px;max-width:900px;margin-top:20px;padding:14px 18px;border:1px dashed var(--terra);background:rgba(201,111,74,.1);text-decoration:none;color:var(--paper);border-radius:4px;transition:background .2s}
+.promo-count.ready{display:flex}
+.promo-count:hover{background:rgba(201,111,74,.18)}
+.pc-l{font-weight:600;font-size:15px;line-height:1.35}
+.pc-l small{display:block;font-weight:400;font-size:13px;color:var(--muted);margin-top:2px}
+.pc-t{font:600 24px 'Unbounded',sans-serif;color:var(--terra-bright);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hero .promo-count{margin-top:28px}
+.promo-float{display:none}
+.promo-float.ready{display:inline-flex;align-items:center;gap:8px;position:fixed;right:16px;bottom:16px;z-index:60;background:var(--terra);color:var(--navy-deep);text-decoration:none;font-weight:700;font-size:15px;padding:12px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.35);opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .2s,transform .2s}
+.promo-float.ready.show{opacity:1;transform:none;pointer-events:auto}
+.promo-float span{font-variant-numeric:tabular-nums;font-weight:600}
+@media (max-width:820px){
+  .promo-float.ready{left:16px;right:auto;font-size:14px;padding:12px 14px;gap:6px}
+  .pc-t{font-size:18px}
+  .pc-l{font-size:14px}
+  .promo-count{padding:12px 14px;gap:10px}
+}
+@media (max-width:380px){.promo-float.ready{font-size:13px;padding:11px 12px}.wa-float span{display:none}}
