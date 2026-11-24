@@ -44,6 +44,7 @@ async function tgOwner(text) {
 
 const metaPath = id => `proofs/${id}/meta.json`;
 const pagePath = (id, n) => `proofs/${id}/p${n}.jpg`;
+const commentsPath = id => `proofs/${id}/comments.json`;
 
 async function readBlob(pathname) {
   const res = await get(pathname, { access: ACCESS, useCache: false });
@@ -84,9 +85,13 @@ async function publicView(req, res) {
   m.lastOpen = now;
   await saveMeta(m).catch(e => console.error("meta:", e.message));
   if (notify && req.query.preview !== "1") {
-    await tgOwner(`👀 ${m.client || "Клиент"} открыл(а) проект «${m.title || "проект"}» (${m.pages} стр.)\nПросмотров всего: ${m.views}\nhttps://yurtdesign.art/p/${m.id}`).catch(e => console.error("notify:", e.message));
+    const who = m.kind === "example" ? "Кто-то открыл пример" : `${m.client || "Клиент"} открыл(а) проект`;
+    await tgOwner(`👀 ${who} «${m.title || "проект"}» (${m.pages} стр.)\nПросмотров всего: ${m.views}\nhttps://yurtdesign.art/p/${m.id}`).catch(e => console.error("notify:", e.message));
   }
-  return res.status(200).json({ status: "ok", client: m.client, title: m.title, pages: m.pages, expires: m.expires, v: m.created });
+  let comments = [];
+  if (m.commentsCount) { try { const c = await readBlob(commentsPath(m.id)); if (c) comments = JSON.parse(c.toString("utf8")); } catch (e) {} }
+  return res.status(200).json({ status: "ok", kind: m.kind || "client", client: m.client, title: m.title, pages: m.pages, expires: m.expires, v: m.created,
+    visible: m.visible || null, price: m.price || 0, payInfo: m.payInfo || "", approved: m.approved || 0, comments });
 }
 
 async function admin(req, res, b) {
@@ -101,12 +106,41 @@ async function admin(req, res, b) {
     const exp = Date.now() + 30 * DAY;
     return res.json({ ok: true, token: exp + "." + hmac("tok:" + exp) });
   }
+  if (a === "approve" || a === "comment") {
+    const m = await getMeta(b.id);
+    if (state(m) !== "ok" || m.kind === "example") return res.status(410).json({ ok: false });
+    if (a === "approve") {
+      if (!m.approved) {
+        m.approved = Date.now();
+        await saveMeta(m);
+        await tgOwner(`✅ ${m.client || "Клиент"} утвердил(а) проект «${m.title}» — ${fmtDate(m.approved)}\nhttps://yurtdesign.art/p/${m.id}`).catch(e => console.error("notify:", e.message));
+      }
+      return res.json({ ok: true, approved: m.approved });
+    }
+    const page = parseInt(b.page, 10), x = +b.x, y = +b.y, text = clean(b.text, 500);
+    if (!(page >= 1 && page <= m.pages) || !(x >= 0 && x <= 1) || !(y >= 0 && y <= 1) || !text) return res.status(400).json({ ok: false });
+    let list = [];
+    if (m.commentsCount) { try { const c = await readBlob(commentsPath(m.id)); if (c) list = JSON.parse(c.toString("utf8")); } catch (e) {} }
+    if (list.length >= 200) return res.status(429).json({ ok: false });
+    const item = { n: list.length + 1, page, x: Math.round(x * 1000) / 1000, y: Math.round(y * 1000) / 1000, text, at: Date.now() };
+    list.push(item);
+    await put(commentsPath(m.id), JSON.stringify(list), { access: ACCESS, contentType: "application/json", addRandomSuffix: false, allowOverwrite: true, cacheControlMaxAge: 60 });
+    m.commentsCount = list.length;
+    await saveMeta(m);
+    await tgOwner(`✏️ Правка №${item.n} от ${m.client || "клиента"} · лист ${page}\n«${text}»\n(точка: ${Math.round(x * 100)}% слева, ${Math.round(y * 100)}% сверху)\nhttps://yurtdesign.art/p/${m.id}#list-${page}`).catch(e => console.error("notify:", e.message));
+    return res.json({ ok: true, comment: item });
+  }
   if (!tokenOk(req.headers["x-proof-token"])) return res.status(401).json({ ok: false, error: "auth" });
 
   if (a === "create") {
     const id = crypto.randomBytes(8).toString("base64").replace(/[^a-z0-9]/gi, "").toLowerCase().padEnd(8, "x").slice(0, 8);
-    const days = Math.min(Math.max(parseInt(b.days, 10) || 7, 1), 90);
-    const m = { id, client: clean(b.client, 60), title: clean(b.title, 80), created: Date.now(), expires: Date.now() + days * DAY, pages: 0, disabled: false, views: 0, lastOpen: 0 };
+    const example = b.kind === "example";
+    const days = example ? 3650 : Math.min(Math.max(parseInt(b.days, 10) || 7, 1), 90);
+    const visible = Array.isArray(b.visible) ? b.visible.map(n => parseInt(n, 10)).filter(n => n >= 1 && n <= 200).slice(0, 200) : null;
+    const m = { id, kind: example ? "example" : "client", client: example ? "" : clean(b.client, 60), title: clean(b.title, 80), created: Date.now(), expires: Date.now() + days * DAY,
+      pages: 0, disabled: false, views: 0, lastOpen: 0, visible: visible && visible.length ? visible : null,
+      price: example ? 0 : Math.max(0, Math.min(parseInt(b.price, 10) || 0, 1e9)), payInfo: example ? "" : clean(String(b.payInfo || "").replace(/\n/g, " ¶ "), 400).replace(/ ¶ /g, "\n"),
+      approved: 0, commentsCount: 0 };
     await saveMeta(m);
     return res.json({ ok: true, id });
   }

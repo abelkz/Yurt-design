@@ -20,6 +20,19 @@
   .cta{position:sticky;bottom:0;background:linear-gradient(transparent,var(--navy-deep) 30%);padding:28px 0 16px;margin-top:10px}
   .cta .btn{width:100%}
   .center{text-align:center;padding:60px 0}
+  .sheet.pick{cursor:crosshair;outline:3px solid var(--terra);outline-offset:-3px}
+  .pin{position:absolute;z-index:3;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--terra);color:#091729;font:700 12px/26px Manrope,sans-serif;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer}
+  .pin.new{background:#F2EDE4}
+  .tip{position:absolute;z-index:4;max-width:260px;background:#091729;color:#F2EDE4;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;font-size:13px;transform:translate(-50%,14px)}
+  .toolbar{position:sticky;top:0;z-index:10;background:var(--navy-deep);padding:10px 0;display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+  .mode-hint{color:var(--terra-bright);font-size:14px;align-self:center}
+  .modal{position:fixed;inset:0;z-index:60;background:rgba(5,12,22,.7);display:flex;align-items:flex-end;justify-content:center}
+  .modal .box{width:100%;max-width:520px;background:var(--navy-deep);border:1px solid var(--line-strong);border-radius:14px 14px 0 0;padding:18px}
+  @media (min-width:600px){.modal{align-items:center}.modal .box{border-radius:14px}}
+  .modal textarea{width:100%;min-height:90px;background:rgba(242,237,228,.06);border:1px solid var(--line-strong);border-radius:8px;padding:10px;color:var(--paper);font:16px Manrope,sans-serif;-webkit-user-select:text;user-select:text}
+  .pay{white-space:pre-line;-webkit-user-select:text;user-select:text}
+  .sum{font:600 28px Unbounded,sans-serif;color:var(--terra-bright)}
+  .approved{border-color:var(--ok)!important}
   @media print{body *{display:none!important}body::after{content:"Печать недоступна";display:block;padding:40px;font-size:20px}}
 </style>
 </head>
@@ -54,27 +67,102 @@
     $("content").innerHTML = '<div class="center"><h1>' + msg[0] + '</h1><p class="muted">' + msg[1] + '</p><p style="margin-top:22px"><a class="btn btn-wa" href="' + wa("Здравствуйте! Пишу по ссылке на проект " + location.href) + '" target="_blank" rel="noopener">Написать в WhatsApp</a></p></div>';
   }
 
+  var M = null, pickMode = false, pending = null;
+  var fmtT = function (t) { var d = new Date(t); return pad(d.getDate()) + "." + pad(d.getMonth() + 1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); };
+  function post(body) { return fetch("/api/proof", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(function (r) { return r.json(); }); }
+
+  function render() {
+    var m = M, ex = m.kind === "example";
+    var h = '<h1>' + esc(m.title || "Проект") + '</h1>';
+    if (ex) h += '<p class="muted">Пример комплекта чертежей YURT Design Studio · ' + m.pages + ' стр. Это реальные листы проекта, показаны в пониженном качестве.</p>';
+    else h += '<p class="muted">Подготовлено для: ' + esc(m.client) + " · " + m.pages + " стр. · просмотр доступен до " + fmtT(m.expires) + "</p>" +
+      '<p class="muted" style="margin-top:6px">Это предпросмотр в пониженном качестве. После оплаты пришлю полный комплект чертежей в PDF.</p>';
+    if (!ex) h += '<div class="toolbar"><button class="btn btn-ghost btn-sm" id="pickBtn">' + (pickMode ? "Готово" : "✏️ Отметить правку на листе") + "</button>" +
+      (pickMode ? '<span class="mode-hint">Нажмите на место на листе</span>' : (m.comments.length ? '<span class="muted" style="align-self:center">Правок: ' + m.comments.length + "</span>" : "")) + "</div>";
+    for (var i = 1; i <= m.pages; i++) {
+      var locked = m.visible && m.visible.indexOf(i) < 0;
+      h += '<div class="sheet' + (pickMode && !locked ? " pick" : "") + '" id="list-' + i + '" data-page="' + i + '"' + (locked ? ' data-locked="1"' : "") + '><span class="num">' + i + " / " + m.pages + '</span><img alt="Лист ' + i + '" loading="' + (i < 3 ? "eager" : "lazy") + '" draggable="false" src="/api/proof?id=' + id + "&page=" + i + "&v=" + m.v + '">';
+      m.comments.filter(function (c) { return c.page === i; }).forEach(function (c) {
+        h += '<span class="pin" style="left:' + c.x * 100 + "%;top:" + c.y * 100 + '%" data-text="' + esc(c.text) + '">' + c.n + "</span>";
+      });
+      h += "</div>";
+    }
+    if (ex) {
+      h += '<div class="cta"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa("Здравствуйте! Посмотрел(а) пример технического проекта. Хочу такой для своей квартиры") + '">Хочу такой проект для своей квартиры</a></div>';
+    } else {
+      h += '<div class="card' + (m.approved ? " approved" : "") + '" id="approveCard">' + (m.approved
+        ? '<h2 class="ok" style="margin:0">✓ Проект утверждён ' + fmtT(m.approved) + "</h2>"
+        : '<h2>Всё устраивает?</h2><p class="muted">Нажмите «Утверждаю», если правок нет. Если есть — отметьте их на листах кнопкой «Отметить правку».</p><div class="row" style="margin-top:14px"><button class="btn" id="approveBtn">Утверждаю проект</button></div>') + "</div>";
+      if (m.price || m.payInfo) {
+        h += '<div class="card"><h2>Оплата</h2>' + (m.price ? '<div class="sum">' + Number(m.price).toLocaleString("ru-RU").replace(/\u00a0/g, " ") + " ₸</div>" : "") +
+          (m.payInfo ? '<p class="pay" style="margin-top:10px">' + esc(m.payInfo) + "</p>" : "") +
+          '<p class="muted" style="margin-top:10px">После оплаты пришлите чек — в течение часа отправлю полный комплект в PDF.</p></div>';
+      }
+      h += '<div class="cta"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa("Здравствуйте! Оплатил(а) проект «" + (m.title || "") + "», отправляю чек") + '">' + (m.price || m.payInfo ? "Отправить чек в WhatsApp" : "Всё устраивает — оплатить и получить PDF") + "</a></div>";
+    }
+    $("content").innerHTML = h;
+  }
+
+  function openComment(page, x, y) {
+    pending = { page: page, x: x, y: y };
+    var d = document.createElement("div"); d.className = "modal"; d.id = "modal";
+    d.innerHTML = '<div class="box"><h2>Правка · лист ' + page + '</h2><textarea id="cText" maxlength="500" placeholder="Например: розетку здесь ниже, на 30 см от пола"></textarea>' +
+      '<div class="row" style="margin-top:12px"><button class="btn" id="cSend">Отправить правку</button><button class="btn btn-ghost" id="cCancel">Отмена</button></div><p class="err" id="cErr" hidden></p></div>';
+    document.body.appendChild(d);
+    setTimeout(function () { $("cText").focus(); }, 30);
+  }
+  function closeModal() { var d = $("modal"); if (d) d.remove(); pending = null; }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (t.id === "pickBtn") { pickMode = !pickMode; render(); return; }
+    if (t.id === "approveBtn") {
+      if (!confirm("Утвердить проект? Это значит, что правок нет и можно переходить к оплате.")) return;
+      t.disabled = true;
+      post({ action: "approve", id: id }).then(function (j) { if (j.ok) { M.approved = j.approved; render(); } else t.disabled = false; });
+      return;
+    }
+    if (t.id === "cCancel" || t.id === "modal") return closeModal();
+    if (t.id === "cSend") {
+      var text = $("cText").value.trim(); if (!text) return $("cText").focus();
+      t.disabled = true;
+      post({ action: "comment", id: id, page: pending.page, x: pending.x, y: pending.y, text: text }).then(function (j) {
+        if (j.ok) { M.comments.push(j.comment); closeModal(); pickMode = false; render(); var el = $("list-" + j.comment.page); el && el.scrollIntoView({ block: "center" }); }
+        else { $("cErr").textContent = "Не отправилось, попробуйте ещё раз или напишите в WhatsApp."; $("cErr").hidden = false; t.disabled = false; }
+      });
+      return;
+    }
+    var pin = t.closest && t.closest(".pin");
+    if (pin) {
+      var old = document.querySelector(".tip"); if (old) old.remove();
+      var tip = document.createElement("div"); tip.className = "tip"; tip.textContent = pin.getAttribute("data-text");
+      tip.style.left = pin.style.left; tip.style.top = pin.style.top; pin.parentNode.appendChild(tip);
+      setTimeout(function () { tip.remove(); }, 4000);
+      return;
+    }
+    var sheet = pickMode && t.closest && t.closest(".sheet");
+    if (sheet && !sheet.dataset.locked) {
+      var r = sheet.getBoundingClientRect();
+      openComment(+sheet.dataset.page, (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+    }
+  });
+
   fetch("/api/proof?id=" + encodeURIComponent(id) + preview, { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (m) {
     if (m.status !== "ok") return fail(m.status);
-    var d = new Date(m.expires), until = pad(d.getDate()) + "." + pad(d.getMonth() + 1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
-    document.documentElement.style.setProperty("--wm", watermark("YURT Design · для " + (m.client || "клиента")));
-    var h = '<h1>' + esc(m.title || "Проект") + '</h1><p class="muted">Подготовлено для: ' + esc(m.client) + " · " + m.pages + " стр. · просмотр доступен до " + until + "</p>" +
-      '<p class="muted" style="margin-top:6px">Это предпросмотр в пониженном качестве. После оплаты пришлю полный комплект чертежей в PDF.</p>';
-    for (var i = 1; i <= m.pages; i++) {
-      h += '<div class="sheet"><span class="num">' + i + " / " + m.pages + '</span><img alt="Лист ' + i + '" loading="' + (i < 3 ? "eager" : "lazy") + '" draggable="false" src="/api/proof?id=' + id + "&page=" + i + "&v=" + m.v + '"></div>';
-    }
-    h += '<div class="cta"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa("Здравствуйте! Посмотрел(а) проект «" + (m.title || "") + "». Готов(а) оплатить, пришлите реквизиты") + '">Всё устраивает — оплатить и получить PDF</a></div>';
-    $("content").innerHTML = h;
+    M = m; M.comments = M.comments || [];
+    document.documentElement.style.setProperty("--wm", watermark(m.kind === "example" ? "YURT Design · пример проекта" : "YURT Design · для " + (m.client || "клиента")));
+    render();
+    if (location.hash) setTimeout(function () { var el = document.querySelector(location.hash); el && el.scrollIntoView(); }, 600);
   }).catch(function () { fail("error"); });
 
   // Защита от копирования: полностью запретить скриншот браузер не может, но мешаем очевидным способам.
   var shield = $("shield");
   function hideFor(ms) { shield.hidden = false; clearTimeout(hideFor.t); if (ms) hideFor.t = setTimeout(function () { shield.hidden = true; }, ms); }
-  ["contextmenu", "dragstart", "selectstart", "copy"].forEach(function (ev) { document.addEventListener(ev, function (e) { e.preventDefault(); }); });
+  ["contextmenu", "dragstart", "selectstart", "copy"].forEach(function (ev) { document.addEventListener(ev, function (e) { if (e.target.closest && e.target.closest("textarea,.pay")) return; e.preventDefault(); }); });
   document.addEventListener("keydown", function (e) {
     var k = (e.key || "").toLowerCase();
     if (k === "printscreen") { hideFor(1500); try { navigator.clipboard.writeText(""); } catch (x) {} e.preventDefault(); }
-    if ((e.ctrlKey || e.metaKey) && ["s", "p", "u", "c"].indexOf(k) >= 0) e.preventDefault();
+    if ((e.ctrlKey || e.metaKey) && ["s", "p", "u"].indexOf(k) >= 0) e.preventDefault();
     if (e.metaKey && e.shiftKey) hideFor(1500); // Cmd+Shift+3/4/5 на Mac
   });
   document.addEventListener("keyup", function (e) { if ((e.key || "").toLowerCase() === "printscreen") { try { navigator.clipboard.writeText(""); } catch (x) {} } });

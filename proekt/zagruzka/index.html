@@ -30,13 +30,21 @@
   <section id="app" hidden>
     <div class="card">
       <h2>Новый проект</h2>
+      <label style="display:flex;gap:10px;align-items:center;color:var(--paper);font-size:15px;margin-top:4px"><input type="checkbox" id="example" style="width:auto"> Это пример для новых клиентов (без имени, без срока, без оплаты)</label>
       <div class="grid2">
-        <div><label for="client">Имя клиента (будет на водяном знаке)</label><input id="client" maxlength="60" placeholder="Айгерим"></div>
+        <div class="cl-only"><label for="client">Имя клиента (будет на водяном знаке)</label><input id="client" maxlength="60" placeholder="Айгерим"></div>
         <div><label for="title">Название</label><input id="title" maxlength="80" placeholder="Технический проект · ЖК Tumar · 72 м²"></div>
-        <div><label for="days">Ссылка работает</label>
+        <div class="cl-only"><label for="days">Ссылка работает</label>
           <select id="days"><option value="3">3 дня</option><option value="7" selected>7 дней</option><option value="14">14 дней</option><option value="30">30 дней</option></select></div>
         <div><label for="quality">Качество предпросмотра</label>
           <select id="quality"><option value="1100">Низкое — размеры не прочитать</option><option value="1400" selected>Среднее — видно всё, мелкое с трудом</option><option value="1800">Повыше — для 3D-визуализаций</option></select></div>
+      </div>
+      <label for="visible">Какие листы показать полностью</label>
+      <input id="visible" placeholder="все — или например: 1-3, 6">
+      <p class="muted" style="font-size:13px;margin-top:4px">Остальные листы клиент увидит размытыми с надписью «доступен после оплаты». В хранилище они попадают уже размытыми.</p>
+      <div class="grid2 cl-only">
+        <div><label for="price">Сумма к оплате, ₸ (необязательно)</label><input id="price" inputmode="numeric" placeholder="216 000"></div>
+        <div><label for="payInfo">Как оплатить (запомнится для следующих проектов)</label><input id="payInfo" maxlength="400" placeholder="Kaspi: +7 7__ ___ __ __, Ренат А."></div>
       </div>
       <label for="file">PDF проекта</label>
       <input type="file" id="file" accept="application/pdf">
@@ -91,8 +99,9 @@
   $("logout").onclick = function (e) { e.preventDefault(); token = ""; try { localStorage.removeItem(KEY); } catch (x) {} show(false); };
 
   // ---------- водяной знак ----------
-  function stamp(ctx, w, h, client, date) {
-    var line = "YURT Design Studio · для " + (client || "клиента") + " · " + date;
+  function stamp(ctx, w, h, client, date, example) {
+    var who = example ? "ПРИМЕР ПРОЕКТА" : "для " + (client || "клиента");
+    var line = "YURT Design Studio · " + who + " · " + date;
     ctx.save();
     ctx.translate(w / 2, h / 2);
     ctx.rotate(-Math.atan2(h, w) * 0.85);
@@ -115,7 +124,38 @@
     ctx.fillStyle = "rgba(9,23,41,0.82)"; ctx.fillRect(0, h - ph, w, ph);
     ctx.fillStyle = "#F2EDE4"; ctx.font = "600 " + Math.round(ph * 0.48) + "px Manrope, Arial, sans-serif";
     ctx.textAlign = "left"; ctx.textBaseline = "middle";
-    ctx.fillText("ПРЕДПРОСМОТР · НЕ ДЛЯ СТРОИТЕЛЬСТВА · yurtdesign.art · для " + (client || "клиента") + " · " + date, ph * 0.5, h - ph / 2);
+    ctx.fillText((example ? "ПРИМЕР ПРОЕКТА · " : "ПРЕДПРОСМОТР · ") + "НЕ ДЛЯ СТРОИТЕЛЬСТВА · yurtdesign.art · " + who + " · " + date, ph * 0.5, h - ph / 2);
+  }
+
+  // ---------- поля ----------
+  try { $("payInfo").value = localStorage.getItem("yurt_pay_info") || ""; } catch (e) {}
+  $("example").onchange = function () {
+    var ex = this.checked;
+    [].forEach.call(document.querySelectorAll(".cl-only"), function (el) { el.hidden = ex; });
+    if (ex && !$("title").value) $("title").value = "Пример технического проекта";
+  };
+  function parseRanges(str, max) {
+    str = String(str || "").trim().toLowerCase();
+    if (!str || str === "все") return null;
+    var out = {};
+    str.split(/[,;\s]+/).forEach(function (part) {
+      var m = part.match(/^(\d+)(?:-(\d+))?$/); if (!m) return;
+      var a = +m[1], b = m[2] ? +m[2] : a;
+      for (var i = Math.min(a, b); i <= Math.max(a, b) && i <= max; i++) if (i >= 1) out[i] = 1;
+    });
+    var list = Object.keys(out).map(Number).sort(function (x, y) { return x - y; });
+    return list.length && list.length < max ? list : null;
+  }
+  // размытый лист: рисуем крошечную копию и растягиваем — деталей не остаётся
+  function blurInto(ctx, src, w, h, example) {
+    var t = document.createElement("canvas"); t.width = 48; t.height = Math.max(8, Math.round(48 * h / w));
+    t.getContext("2d").drawImage(src, 0, 0, t.width, t.height);
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(t, 0, 0, w, h);
+    var fs = Math.round(Math.min(w, h) / 14);
+    ctx.fillStyle = "rgba(9,23,41,0.55)"; ctx.fillRect(0, h / 2 - fs * 1.3, w, fs * 2.6);
+    ctx.fillStyle = "#F2EDE4"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.font = "700 " + fs + "px Manrope, Arial, sans-serif"; ctx.fillText(example ? "🔒 Полный лист — в вашем проекте" : "🔒 Лист доступен после оплаты", w / 2, h / 2);
   }
 
   // ---------- загрузка ----------
@@ -129,15 +169,19 @@
 
   $("go").onclick = async function () {
     var btn = this; $("upErr").hidden = true; $("done").hidden = true; $("thumbs").innerHTML = "";
-    var client = $("client").value.trim(), title = $("title").value.trim() || pdfFile.name.replace(/\.pdf$/i, "");
-    if (!client) { $("client").focus(); $("upErr").textContent = "Впишите имя клиента — оно будет на водяном знаке."; $("upErr").hidden = false; return; }
+    var example = $("example").checked;
+    var client = example ? "" : $("client").value.trim(), title = $("title").value.trim() || pdfFile.name.replace(/\.pdf$/i, "");
+    if (!example && !client) { $("client").focus(); $("upErr").textContent = "Впишите имя клиента — оно будет на водяном знаке."; $("upErr").hidden = false; return; }
+    var payInfo = $("payInfo").value.trim(); try { if (payInfo) localStorage.setItem("yurt_pay_info", payInfo); } catch (e) {}
     btn.disabled = true;
     try {
       pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
       var pdf = await pdfjsLib.getDocument({ data: await pdfFile.arrayBuffer() }).promise;
       var n = pdf.numPages;
       if (n > 200) throw new Error("В PDF больше 200 страниц");
-      var created = await call({ action: "create", client: client, title: title, days: $("days").value });
+      var visible = parseRanges($("visible").value, n);
+      var created = await call({ action: "create", kind: example ? "example" : "client", client: client, title: title, days: $("days").value, visible: visible,
+        price: String($("price").value).replace(/\D/g, ""), payInfo: payInfo });
       if (!created.ok) throw new Error(created._status === 401 ? "auth" : (created.error === "storage" ? "Хранилище не подключено" : "Не удалось создать проект"));
       var id = created.id, longSide = +$("quality").value;
       var now = new Date(), date = ("0" + now.getDate()).slice(-2) + "." + ("0" + (now.getMonth() + 1)).slice(-2) + "." + now.getFullYear();
@@ -148,7 +192,8 @@
         var c = document.createElement("canvas"); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
         var ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
         await page.render({ canvasContext: ctx, viewport: vp }).promise;
-        stamp(ctx, c.width, c.height, client, date);
+        if (visible && visible.indexOf(i) < 0) { var src = document.createElement("canvas"); src.width = c.width; src.height = c.height; src.getContext("2d").drawImage(c, 0, 0); blurInto(ctx, src, c.width, c.height, example); }
+        stamp(ctx, c.width, c.height, example ? "" : client, date, example);
         var data = c.toDataURL("image/jpeg", 0.6);
         var r = await call({ action: "page", id: id, n: i, data: data });
         if (!r.ok) { r = await call({ action: "page", id: id, n: i, data: data }); if (!r.ok) throw new Error("Не загрузилась страница " + i); }
@@ -161,7 +206,9 @@
       var url = location.origin + "/p/" + id;
       $("doneLink").textContent = url; $("open").href = url + "?preview=1"; $("done").hidden = false;
       var exp = new Date(fin.meta.expires), expText = ("0" + exp.getDate()).slice(-2) + "." + ("0" + (exp.getMonth() + 1)).slice(-2);
-      $("waShare").href = "https://wa.me/?text=" + encodeURIComponent("Здравствуйте" + (client ? ", " + client : "") + "! Проект готов 🙂 Посмотреть можно здесь: " + url + "\nСсылка работает до " + expText + ". После оплаты пришлю полный комплект в PDF.");
+      $("waShare").href = "https://wa.me/?text=" + encodeURIComponent(example
+        ? "Вот пример технического проекта, который получает бригада: " + url + "\nПосмотрите, по такому комплекту делают ремонт без переделок."
+        : "Здравствуйте" + (client ? ", " + client : "") + "! Проект готов 🙂 Посмотреть можно здесь: " + url + "\nСсылка работает до " + expText + ". Если всё устраивает — нажмите «Утверждаю» внизу страницы, правки можно отметить прямо на листах.");
       $("copy").onclick = function () { navigator.clipboard.writeText(url).then(function () { $("copy").textContent = "Скопировано ✓"; }); };
       pdfFile = null; $("file").value = ""; $("fileInfo").textContent = "";
       loadList();
@@ -183,7 +230,8 @@
       $("list").innerHTML = j.items.map(function (m) {
         var st = STATE[m.state] || [m.state, ""];
         return '<div class="item" data-id="' + m.id + '"><b>' + esc(m.title) + '</b><span class="tag ' + st[1] + '">' + st[0] + "</span>" +
-          '<div class="muted">для ' + esc(m.client) + " · " + m.pages + " стр. · до " + m.expiresText + " · просмотров: " + (m.views || 0) + (m.lastOpenText ? " · последний: " + m.lastOpenText : "") + "</div>" +
+          (m.kind === "example" ? '<span class="tag">пример</span>' : "") + (m.approved ? '<span class="tag ok">утверждён</span>' : "") + (m.commentsCount ? '<span class="tag">правок: ' + m.commentsCount + "</span>" : "") +
+          '<div class="muted">' + (m.kind === "example" ? "без срока" : "для " + esc(m.client) + " · до " + m.expiresText) + " · " + m.pages + " стр. · просмотров: " + (m.views || 0) + (m.lastOpenText ? " · последний: " + m.lastOpenText : "") + (m.price ? " · " + Number(m.price).toLocaleString("ru-RU") + " ₸" : "") + "</div>" +
           '<div class="row" style="margin-top:8px"><button class="btn btn-ghost btn-sm" data-act="copy">Ссылка</button>' +
           '<button class="btn btn-ghost btn-sm" data-act="extend">+7 дней</button>' +
           '<button class="btn btn-ghost btn-sm" data-act="toggle">' + (m.disabled ? "Включить" : "Выключить") + "</button>" +
