@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ваш проект — YURT Design Studio</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/proekt/proof.css">
+<style>
+  body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .sheet{position:relative;margin:18px 0;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .sheet img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+  .sheet::after{content:"";position:absolute;inset:0;background-image:var(--wm);background-size:340px 170px;pointer-events:none}
+  .num{position:absolute;top:10px;right:12px;background:rgba(9,23,41,.8);color:#F2EDE4;font-size:12px;padding:3px 9px;border-radius:99px;z-index:2}
+  .shield{position:fixed;inset:0;z-index:50;background:var(--navy-deep);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--muted)}
+  .cta{position:sticky;bottom:0;background:linear-gradient(transparent,var(--navy-deep) 30%);padding:28px 0 16px;margin-top:10px}
+  .cta .btn{width:100%}
+  .center{text-align:center;padding:60px 0}
+  @media print{body *{display:none!important}body::after{content:"Печать недоступна";display:block;padding:40px;font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="root">
+  <div class="brand">YURT Design Studio</div>
+  <div id="content"><p class="muted center">Загружаю проект…</p></div>
+</div>
+<div class="shield" id="shield" hidden>Вернитесь на страницу, чтобы продолжить просмотр</div>
+
+<script>
+(function () {
+  var WA = "77000632424";
+  var id = (location.pathname.split("/")[2] || "").toLowerCase();
+  var preview = /[?&]preview=1/.test(location.search) ? "&preview=1" : "";
+  var $ = function (i) { return document.getElementById(i); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var wa = function (t) { return "https://wa.me/" + WA + "?text=" + encodeURIComponent(t); };
+  var pad = function (n) { return ("0" + n).slice(-2); };
+
+  function watermark(text) {
+    var c = document.createElement("canvas"); c.width = 340; c.height = 170;
+    var x = c.getContext("2d"); x.translate(170, 85); x.rotate(-0.42);
+    x.font = "600 15px Manrope, Arial, sans-serif"; x.textAlign = "center"; x.fillStyle = "rgba(201,111,74,0.16)";
+    x.fillText(text, 0, 0);
+    return "url(" + c.toDataURL() + ")";
+  }
+
+  function fail(status) {
+    var msg = { expired: ["Срок просмотра истёк", "Напишите мне — пришлю новую ссылку."], disabled: ["Ссылка отключена", "Если нужен доступ к проекту, напишите мне."], uploading: ["Проект ещё загружается", "Обновите страницу через пару минут."] }[status]
+      || ["Проект не найден", "Проверьте ссылку или напишите мне."];
+    $("content").innerHTML = '<div class="center"><h1>' + msg[0] + '</h1><p class="muted">' + msg[1] + '</p><p style="margin-top:22px"><a class="btn btn-wa" href="' + wa("Здравствуйте! Пишу по ссылке на проект " + location.href) + '" target="_blank" rel="noopener">Написать в WhatsApp</a></p></div>';
+  }
+
+  fetch("/api/proof?id=" + encodeURIComponent(id) + preview, { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (m) {
+    if (m.status !== "ok") return fail(m.status);
+    var d = new Date(m.expires), until = pad(d.getDate()) + "." + pad(d.getMonth() + 1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    document.documentElement.style.setProperty("--wm", watermark("YURT Design · для " + (m.client || "клиента")));
+    var h = '<h1>' + esc(m.title || "Проект") + '</h1><p class="muted">Подготовлено для: ' + esc(m.client) + " · " + m.pages + " стр. · просмотр доступен до " + until + "</p>" +
+      '<p class="muted" style="margin-top:6px">Это предпросмотр в пониженном качестве. После оплаты пришлю полный комплект чертежей в PDF.</p>';
+    for (var i = 1; i <= m.pages; i++) {
+      h += '<div class="sheet"><span class="num">' + i + " / " + m.pages + '</span><img alt="Лист ' + i + '" loading="' + (i < 3 ? "eager" : "lazy") + '" draggable="false" src="/api/proof?id=' + id + "&page=" + i + "&v=" + m.v + '"></div>';
+    }
+    h += '<div class="cta"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa("Здравствуйте! Посмотрел(а) проект «" + (m.title || "") + "». Готов(а) оплатить, пришлите реквизиты") + '">Всё устраивает — оплатить и получить PDF</a></div>';
+    $("content").innerHTML = h;
+  }).catch(function () { fail("error"); });
+
+  // Защита от копирования: полностью запретить скриншот браузер не может, но мешаем очевидным способам.
+  var shield = $("shield");
+  function hideFor(ms) { shield.hidden = false; clearTimeout(hideFor.t); if (ms) hideFor.t = setTimeout(function () { shield.hidden = true; }, ms); }
+  ["contextmenu", "dragstart", "selectstart", "copy"].forEach(function (ev) { document.addEventListener(ev, function (e) { e.preventDefault(); }); });
+  document.addEventListener("keydown", function (e) {
+    var k = (e.key || "").toLowerCase();
+    if (k === "printscreen") { hideFor(1500); try { navigator.clipboard.writeText(""); } catch (x) {} e.preventDefault(); }
+    if ((e.ctrlKey || e.metaKey) && ["s", "p", "u", "c"].indexOf(k) >= 0) e.preventDefault();
+    if (e.metaKey && e.shiftKey) hideFor(1500); // Cmd+Shift+3/4/5 на Mac
+  });
+  document.addEventListener("keyup", function (e) { if ((e.key || "").toLowerCase() === "printscreen") { try { navigator.clipboard.writeText(""); } catch (x) {} } });
+  window.addEventListener("blur", function () { hideFor(0); });
+  window.addEventListener("focus", function () { shield.hidden = true; });
+  document.addEventListener("visibilitychange", function () { if (document.hidden) hideFor(0); else shield.hidden = true; });
+})();
+</script>
+</body>
+</html>

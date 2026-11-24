@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /p/
+Disallow: /proekt/
 Disallow: /blog/_layout.html
 Sitemap: https://yurtdesign.art/sitemap.xml
 Sitemap: https://yurtdesign.art/sitemap-blog.xml

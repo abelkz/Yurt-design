@@ -1,0 +1,38 @@
+/* Общие стили для /proekt/zagruzka/ и /p/<id> */
+:root{--navy:#0E1F33;--navy-deep:#091729;--paper:#F2EDE4;--line:rgba(242,237,228,.16);--line-strong:rgba(242,237,228,.34);--terra:#C96F4A;--terra-bright:#E08A63;--muted:rgba(242,237,228,.62);--ok:#5fbf7f;--bad:#ff9a8a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--navy-deep);color:var(--paper);font:16px/1.5 'Manrope',system-ui,sans-serif;min-height:100vh}
+a{color:var(--terra-bright)}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 80px}
+.brand{font:600 13px 'Unbounded',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--terra-bright)}
+h1{font:600 26px/1.25 'Unbounded',sans-serif;margin:10px 0 6px}
+h2{font:600 18px 'Unbounded',sans-serif;margin:0 0 14px}
+.muted{color:var(--muted);font-size:14px}
+.card{background:rgba(242,237,228,.04);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:20px}
+label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
+input,select{width:100%;background:rgba(242,237,228,.06);border:1px solid var(--line-strong);border-radius:8px;padding:12px 14px;color:var(--paper);font:16px 'Manrope',sans-serif}
+input:focus,select:focus{outline:none;border-color:var(--terra)}
+input[type=file]{padding:10px}
+select option{color:#000}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:8px;padding:13px 18px;font:600 15px 'Manrope',sans-serif;cursor:pointer;text-decoration:none;background:var(--terra);color:var(--navy-deep)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-ghost{background:none;border:1px solid var(--line-strong);color:var(--paper)}
+.btn-wa{background:#25D366;color:#062b14}
+.btn-sm{padding:8px 12px;font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media (max-width:600px){.grid2{grid-template-columns:1fr}h1{font-size:21px}}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:16px 0 6px}
+.bar i{display:block;height:100%;width:0;background:var(--terra);transition:width .2s}
+.err{color:var(--bad);font-size:14px;margin-top:10px}
+.ok{color:var(--ok)}
+.link{font:600 15px monospace;word-break:break-all;background:rgba(242,237,228,.07);padding:10px 12px;border-radius:8px;margin:10px 0}
+.item{border-top:1px solid var(--line);padding:14px 0}
+.item:first-child{border-top:0}
+.item b{font-size:15px}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line-strong);margin-left:6px}
+.tag.ok{border-color:var(--ok)}
+.tag.bad{border-color:var(--bad);color:var(--bad)}
+.thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:12px}
+.thumbs img{height:110px;border-radius:4px;background:#fff}
+[hidden]{display:none!important}
