@@ -512,3 +512,4 @@ html.qz-lock{overflow:hidden}
 .course-msg{color:#ff9a8a;font-size:14px}
 .course-msg a{color:var(--paper)}
 .course-ok{font-size:18px;color:var(--paper);padding:18px;border:1px solid var(--terra);border-radius:10px}
+.course-form .qz-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
