@@ -60,8 +60,11 @@
     ].filter(Boolean);
   }
 
+  // Короткое сообщение: длинный текст с цифрами люди не отправляют.
+  var SHORT = { full: "дизайн-проект", tech: "технический проект", viz: "3D-визуализацию", unsure: "проект" };
   function waLink(extra) {
-    var t = "Здравствуйте! Посчитал стоимость на сайте.\n" + summary().join("\n") + (extra ? "\n" + extra : "");
+    var t = "Здравствуйте! Посчитал на сайте " + (SHORT[state.service] || "проект") + " на " + state.area + " м²" +
+      (hasDiscount() ? " со скидкой" : "") + ". Пришлите пример чертежей" + (extra ? ". " + extra : "");
     return "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
   }
 
@@ -99,14 +102,16 @@
         if (state.hold > Date.now()) timer = '<div class="qz-timer"><span>Скидка 40 % на технический проект закреплена за вами ещё</span><b data-left>' + left(state.hold) + "</b></div>";
       }
       body.innerHTML = '<p class="qz-step">Ваш расчёт</p><h3>Предварительная стоимость</h3>' + rows + timer +
-        '<p class="qz-note">Точную сумму и сроки назову после пары уточнений. Оставьте номер — перезвоню или напишу в WhatsApp в течение 15 минут (с 9:00 до 21:00).</p>' +
+        '<p class="qz-note">Пришлю пример чертежей.</p>' +
+        '<a class="btn btn-wa qz-wa" href="' + waLink() + '" target="_blank" rel="noopener" data-qzwa>Получить расчёт в WhatsApp</a>' +
+        '<p class="qz-or"><span>или оставьте номер — перезвоню</span></p>' +
         '<form class="qz-form" novalidate>' +
-        '<input name="name" autocomplete="name" placeholder="Как к вам обращаться" maxlength="60">' +
         '<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 7__ ___ __ __" required maxlength="20">' +
+        '<input name="name" type="hidden" value="">' +
         '<input name="company" tabindex="-1" autocomplete="off" class="qz-hp" aria-hidden="true">' +
         '<p class="qz-err" hidden></p>' +
-        '<button class="btn btn-primary" type="submit">Получить точный расчёт</button>' +
-        '<p class="qz-small">Нажимая кнопку, вы соглашаетесь, что я свяжусь с вами по этому номеру. Без рассылок.</p>' +
+        '<button class="btn btn-ghost qz-call" type="submit">Перезвоните мне</button>' +
+        '<p class="qz-small">Без рассылок. Номер нужен только для звонка.</p>' +
         "</form>" + back;
       track("quiz_result", { service: state.service, area: state.area });
       if (timer) tick = setInterval(function () {
@@ -117,7 +122,7 @@
       return;
     }
     body.innerHTML = '<div class="qz-done"><p class="qz-step">Заявка отправлена</p><h3>Спасибо' + (state.name ? ", " + esc(state.name) : "") + "!</h3>" +
-      "<p>Свяжусь с вами в течение 15 минут в рабочее время. Если удобнее — напишите сразу, ответы квиза уже в сообщении:</p>" +
+      "<p>Перезвоню в течение 15 минут в рабочее время (9:00–21:00). Если удобнее — напишите сразу:</p>" +
       '<a class="btn btn-wa" href="' + waLink() + '" target="_blank" rel="noopener">Написать в WhatsApp</a></div>';
   }
 
@@ -156,8 +161,8 @@
       track("conversion", { send_to: "AW-18561818704/nrLmCKvd-LMdENDA-5JF" });
       step = STEPS.length + 1; render();
     }).catch(function () {
-      err.innerHTML = 'Не получилось отправить. <a href="' + waLink("Мой номер: " + phone) + '" target="_blank" rel="noopener">Отправьте расчёт в WhatsApp</a> — отвечу так же быстро.';
-      err.hidden = false; btn.disabled = false; btn.textContent = "Получить точный расчёт";
+      err.innerHTML = 'Не получилось отправить. <a href="' + waLink("Мой номер: " + phone) + '" target="_blank" rel="noopener">Напишите в WhatsApp</a> — отвечу так же быстро.';
+      err.hidden = false; btn.disabled = false; btn.textContent = "Перезвоните мне";
     });
   }
 
@@ -171,6 +176,7 @@
       if (t) { ev.preventDefault(); open(t.getAttribute("data-quiz")); if (state.service) state.preset = true; render(); }
     });
     root.addEventListener("click", function (ev) {
+      if (ev.target.closest("[data-qzwa]")) { track("quiz_whatsapp", { service: state.service, area: state.area }); return; }
       if (ev.target === root || ev.target.closest("[data-close]")) return close();
       if (ev.target.closest("[data-back]")) { step--; if (STEPS[step] && STEPS[step].key === "service" && state.preset) step--; return render(); }
       var o = ev.target.closest(".qz-opt");

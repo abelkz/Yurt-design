@@ -497,3 +497,8 @@ html.qz-lock{overflow:hidden}
   .promo-count{padding:12px 14px;gap:10px}
 }
 @media (max-width:380px){.promo-float.ready{font-size:13px;padding:11px 12px}.wa-float span{display:none}}
+.qz-wa{width:100%;justify-content:center;font-size:16px;padding:15px 18px}
+.qz-or{display:flex;align-items:center;gap:10px;margin:18px 0 10px;color:var(--muted);font-size:13px}
+.qz-or::before,.qz-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.qz-call{background:none;border:1px solid var(--line-strong);color:var(--paper)}
+.qz-form .qz-call{border:1px solid var(--line-strong);background:none;color:var(--paper)}
