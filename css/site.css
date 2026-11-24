@@ -502,3 +502,13 @@ html.qz-lock{overflow:hidden}
 .qz-or::before,.qz-or::after{content:"";flex:1;height:1px;background:var(--line)}
 .qz-call{background:none;border:1px solid var(--line-strong);color:var(--paper)}
 .qz-form .qz-call{border:1px solid var(--line-strong);background:none;color:var(--paper)}
+
+/* ===== обучение: форма предзаписи ===== */
+.course-form{display:grid;gap:12px;max-width:560px}
+.course-form input,.course-form select{width:100%;background:rgba(242,237,228,.06);border:1px solid var(--line-strong);border-radius:8px;padding:14px;color:var(--paper);font:16px 'Manrope',sans-serif}
+.course-form select option{color:#000}
+.course-form input:focus,.course-form select:focus{border-color:var(--terra);outline:none}
+.course-form .btn{border:0;cursor:pointer;justify-content:center;font:inherit;font-weight:600}
+.course-msg{color:#ff9a8a;font-size:14px}
+.course-msg a{color:var(--paper)}
+.course-ok{font-size:18px;color:var(--paper);padding:18px;border:1px solid var(--terra);border-radius:10px}

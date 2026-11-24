@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
   if (wa.length === 10) wa = "7" + wa;
 
   const text = [
-    "🔥 Заявка с сайта — квиз",
+    b.source === "course" ? "🎓 Предзапись на обучение Revit" : "🔥 Заявка с сайта — квиз",
     "",
     `Имя: ${name || "—"}`,
     `Телефон: +${wa}`,
